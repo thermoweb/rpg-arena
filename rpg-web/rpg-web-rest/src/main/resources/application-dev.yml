@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      username: rpg-arena
+      password:
+      host: localhost
+      port: 27017
+      database: rpg-arena
+      authentication-database: rpg-arena
