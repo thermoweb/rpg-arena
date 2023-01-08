@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.thermoweb.rpg.actions.Spells;
 import org.thermoweb.rpg.characters.BrainType;
 import org.thermoweb.rpg.characters.Profiles;
 import org.thermoweb.rpg.characters.Species;
 import org.thermoweb.rpg.equipment.slots.Slots;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -26,6 +28,7 @@ public class CharacterEntity {
     private final int hitPoints;
     private final Statistics statistics;
     private Map<Slots, Equipment> equipment;
+    private List<Spells> spellbook;
 
     @Builder
     @Getter

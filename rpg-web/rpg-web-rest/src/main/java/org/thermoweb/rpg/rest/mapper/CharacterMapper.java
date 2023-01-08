@@ -26,6 +26,7 @@ public class CharacterMapper {
                                         .name(entry.getValue().getName())
                                         .attrition(entry.getValue().getAttrition())
                                         .build())))
+                .spellbook(characterEntity.getSpellbook())
                 .statistics(Map.of(Ability.FORCE, characterEntity.getStatistics().getForce(),
                         Ability.DEXTERITY, characterEntity.getStatistics().getDexterity(),
                         Ability.INTELLIGENCE, characterEntity.getStatistics().getIntelligence()))
@@ -41,6 +42,7 @@ public class CharacterMapper {
                 .species(characterDto.species())
                 .hitPoints(characterDto.hitPoints())
                 .maxHitPoints(characterDto.maxHitPoints())
+                .spellbook(characterDto.spellbook())
                 .equipment(characterDto.equipment()
                         .entrySet()
                         .stream()

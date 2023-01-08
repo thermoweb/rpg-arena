@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.core.utils.RandomUtils;
 import org.thermoweb.rpg.actions.Action;
+import org.thermoweb.rpg.actions.Spells;
 import org.thermoweb.rpg.brain.Brain;
 import org.thermoweb.rpg.environment.Arena;
 import org.thermoweb.rpg.equipment.EquipmentSlots;
@@ -31,6 +32,7 @@ public class DefaultCharacter {
     private int hitPoints;
     private final Statistics statistics;
     private final EquipmentSlots equipmentSlots;
+    private final List<Spells> spellbook;
     private final Brain brain;
 
     public int rollInitiative() {
@@ -58,6 +60,18 @@ public class DefaultCharacter {
         log.info(actionLog);
 
         return actionLog;
+    }
+
+    public String takeSpellDamages(int damages) {
+        hitPoints -= damages;
+        String actionLog = String.format("%s taking %d damages (%d raw). %d hit points left", name, damages, damages, hitPoints);
+        log.info(actionLog);
+
+        return actionLog;
+    }
+
+    public void spellCostHp(int hpCost) {
+        hitPoints -= hpCost;
     }
 
     public List<Action> getActions(Arena arena) {
