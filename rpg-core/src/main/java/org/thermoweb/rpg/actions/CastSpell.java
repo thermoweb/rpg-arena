@@ -3,9 +3,9 @@ package org.thermoweb.rpg.actions;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.environment.Arena;
-import org.thermoweb.rpg.equipment.Weapon;
 import org.thermoweb.rpg.utils.GridUtils;
 
 import java.util.Objects;
@@ -13,24 +13,26 @@ import java.util.Objects;
 @Builder
 @Getter
 @Slf4j
-public final class Attack implements Action {
+public final class CastSpell implements Action {
 
-    private final Weapon weapon;
     private final DefaultCharacter target;
+    private final Spells spell;
     private DefaultCharacter from;
 
     @Override
     public String execute(Arena arena) throws ActionException {
         autoCheck();
-        if (GridUtils.getDirectDistance(arena.getCharacterPairMap().get(from.getId()), arena.getCharacterPairMap().get(target.getId())) > weapon.getRange()) {
+        if (GridUtils.getDirectDistance(arena.getCharacterPairMap().get(from.getId()), arena.getCharacterPairMap().get(target.getId())) > spell.getRange()) {
             throw new ActionException("target is too far to attack.");
         }
 
-        if (from.rollAbility(weapon.getAbility())) {
-            int damages = weapon.getDamages();
-            return target.takeDamage(damages);
+        log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
+        from.spellCostHp(spell.getHpCost());
+        if (from.rollAbility(Ability.INTELLIGENCE)) {
+            int damages = spell.getDamages();
+            return target.takeSpellDamages(damages);
         } else {
-            String actionLog = "attacks missed...";
+            String actionLog = "spell missed...";
             log.info(actionLog);
             return actionLog;
         }
@@ -43,9 +45,12 @@ public final class Attack implements Action {
 
     private void autoCheck() throws ActionException {
         try {
-            Objects.requireNonNull(weapon, "'weapon' should be not null");
+            Objects.requireNonNull(spell, "'spell' should be not null");
             Objects.requireNonNull(from, "'from' should be not null");
             Objects.requireNonNull(target, "'target' should be not null");
+            if (!from.getSpellbook().contains(spell)) {
+                throw new ActionException("this spell is not in the character's spellbook");
+            }
         } catch (NullPointerException e) {
             throw new ActionException("Action is not valid", e);
         }

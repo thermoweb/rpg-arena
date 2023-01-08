@@ -22,6 +22,7 @@ public class CharacterEntityMapper {
                 .maxHitPoints(character.getMaxHitPoints())
                 .statistics(map(character.getStatistics()))
                 .equipment(EquipmentEntityMapper.map(character.getEquipmentSlots()))
+                .spellbook(character.getSpellbook())
                 .build();
     }
 
@@ -50,6 +51,7 @@ public class CharacterEntityMapper {
                 .hitPoints(characterEntity.getHitPoints())
                 .statistics(map(characterEntity.getStatistics()))
                 .equipmentSlots(EquipmentEntityMapper.map(characterEntity.getEquipment()))
+                .spellbook(characterEntity.getSpellbook())
                 .build();
     }
 
