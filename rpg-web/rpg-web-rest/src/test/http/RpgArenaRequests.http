@@ -1,0 +1,55 @@
+### CreateCharacter
+POST localhost:8080/characters
+Content-Type: application/json
+
+
+{
+  "name": "Chronie",
+  "statistics": {
+    "weakness": "DEXTERITY",
+    "medium": "FORCE",
+    "strength": "INTELLIGENCE"
+  },
+  "species": "GNOME",
+  "profile": "WIZARD",
+  "equipment": {
+    "TORSO": {
+      "name": "CHAIN_MAIL",
+      "attrition": 100
+    },
+    "HANDS": {
+      "name": "STAFF",
+      "attrition": 100
+    }
+  }
+}
+
+> {%
+
+    client.global.set("character_id", response.body.id)
+    client.log(client.global.get("character_id"))
+
+%}
+
+### CreateEncounter
+
+POST localhost:8080/encounters
+Content-Type: application/json
+
+{
+  "characterId": "{{character_id}}",
+  "grid": "SQUARE_8",
+  "brain": {
+    "type": "REMOTE",
+    "uri": "http://localhost:8083/brain"
+  }
+}
+
+> {%
+    client.global.set("encounter_id", response.body.id)
+    client.log(client.global.get("encounter_id"))
+%}
+
+### LaunchEncounter
+
+POST localhost:8082/encounters/{{encounter_id}}:launch
