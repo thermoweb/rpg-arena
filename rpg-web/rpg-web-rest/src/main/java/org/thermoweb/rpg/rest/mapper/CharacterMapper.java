@@ -30,6 +30,7 @@ public class CharacterMapper {
                 .statistics(Map.of(Ability.FORCE, characterEntity.getStatistics().getForce(),
                         Ability.DEXTERITY, characterEntity.getStatistics().getDexterity(),
                         Ability.INTELLIGENCE, characterEntity.getStatistics().getIntelligence()))
+                .skills(characterEntity.getSkills())
                 .build();
 
     }
@@ -43,6 +44,7 @@ public class CharacterMapper {
                 .hitPoints(characterDto.hitPoints())
                 .maxHitPoints(characterDto.maxHitPoints())
                 .spellbook(characterDto.spellbook())
+                .skills(characterDto.skills())
                 .equipment(characterDto.equipment()
                         .entrySet()
                         .stream()
