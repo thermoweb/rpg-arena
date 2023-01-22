@@ -15,6 +15,7 @@ import org.thermoweb.rpg.utils.Dice;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.lang.Math.max;
 
@@ -31,6 +32,7 @@ public class DefaultCharacter {
     private final int maxHitPoints;
     private int hitPoints;
     private final Statistics statistics;
+    private final Set<Skills> skills;
     private final EquipmentSlots equipmentSlots;
     private final List<Spells> spellbook;
     private final Brain brain;

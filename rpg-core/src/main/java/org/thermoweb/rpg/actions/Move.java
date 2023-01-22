@@ -43,4 +43,9 @@ public final class Move implements Action {
     public void setOwner(DefaultCharacter owner) {
         this.owner = owner;
     }
+
+    @Override
+    public boolean isMoveAction() {
+        return true;
+    }
 }
