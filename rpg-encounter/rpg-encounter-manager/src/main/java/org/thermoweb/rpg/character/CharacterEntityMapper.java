@@ -23,6 +23,7 @@ public class CharacterEntityMapper {
                 .statistics(map(character.getStatistics()))
                 .equipment(EquipmentEntityMapper.map(character.getEquipmentSlots()))
                 .spellbook(character.getSpellbook())
+                .skills(character.getSkills())
                 .build();
     }
 
@@ -52,6 +53,7 @@ public class CharacterEntityMapper {
                 .statistics(map(characterEntity.getStatistics()))
                 .equipmentSlots(EquipmentEntityMapper.map(characterEntity.getEquipment()))
                 .spellbook(characterEntity.getSpellbook())
+                .skills(characterEntity.getSkills())
                 .build();
     }
 

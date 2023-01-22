@@ -7,11 +7,13 @@ import org.springframework.data.annotation.Id;
 import org.thermoweb.rpg.actions.Spells;
 import org.thermoweb.rpg.characters.BrainType;
 import org.thermoweb.rpg.characters.Profiles;
+import org.thermoweb.rpg.characters.Skills;
 import org.thermoweb.rpg.characters.Species;
 import org.thermoweb.rpg.equipment.slots.Slots;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,6 +31,7 @@ public class CharacterEntity {
     private final Statistics statistics;
     private Map<Slots, Equipment> equipment;
     private List<Spells> spellbook;
+    private Set<Skills> skills;
 
     @Builder
     @Getter
