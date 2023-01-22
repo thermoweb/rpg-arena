@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
+import org.thermoweb.rpg.characters.Skills;
 import org.thermoweb.rpg.environment.Arena;
 import org.thermoweb.rpg.utils.GridUtils;
 
@@ -48,6 +49,9 @@ public final class CastSpell implements Action {
             Objects.requireNonNull(spell, "'spell' should be not null");
             Objects.requireNonNull(from, "'from' should be not null");
             Objects.requireNonNull(target, "'target' should be not null");
+            if (!from.getSkills().contains(Skills.SPELL_CASTING)) {
+                throw new ActionException("character must have the skill to cast spell");
+            }
             if (!from.getSpellbook().contains(spell)) {
                 throw new ActionException("this spell is not in the character's spellbook");
             }

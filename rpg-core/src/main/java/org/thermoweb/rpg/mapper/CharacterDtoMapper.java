@@ -46,6 +46,7 @@ public class CharacterDtoMapper {
                         .dexterity(characterDto.statistics().get(Ability.DEXTERITY))
                         .intelligence(characterDto.statistics().get(Ability.INTELLIGENCE))
                         .build())
+                .skills(characterDto.skills())
                 .build();
     }
 
@@ -63,6 +64,7 @@ public class CharacterDtoMapper {
                 .species(character.getSpecies())
                 .profiles(character.getProfiles())
                 .statistics(statistics)
+                .skills(character.getSkills())
                 .spellbook(character.getSpellbook())
                 .brain(mapBrain(character.getBrain()))
                 .hitPoints(character.getHitPoints())

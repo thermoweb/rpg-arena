@@ -49,7 +49,7 @@ public class ActionMapper {
             case MOVE ->
                     Move.builder().direction(Direction.valueOf((String) action.parameters().get(DIRECTION))).build();
             case SPELL -> CastSpell.builder()
-                    .spell((Spells) action.parameters().get(SPELL))
+                    .spell(Spells.valueOf((String) action.parameters().get(SPELL)))
                     .target(CharacterDtoMapper.map((new ObjectMapper()).convertValue(action.parameters().get(TARGET), CharacterDto.class)))
                     .build();
         };

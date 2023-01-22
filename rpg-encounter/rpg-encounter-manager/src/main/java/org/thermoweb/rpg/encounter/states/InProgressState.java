@@ -53,13 +53,13 @@ public final class InProgressState implements EncounterState {
 
     private void checkAction(Action action, List<Action> actionsDone, int maxActions, int maxMove) throws ActionException {
         if (action instanceof Attack) {
-            if (actionsDone.stream().filter(a -> a instanceof Attack).count() >= maxActions) {
+            if (actionsDone.stream().filter(a -> !a.isMoveAction()).count() >= maxActions) {
                 throw new ActionException("Character has reach his max attack actions");
             }
             return;
         }
         if (action instanceof Move) {
-            if (actionsDone.stream().filter(a -> a instanceof Move).count() >= maxMove) {
+            if (actionsDone.stream().filter(Action::isMoveAction).count() >= maxMove) {
                 throw new ActionException("Character has reach his max move actions");
             }
         }
