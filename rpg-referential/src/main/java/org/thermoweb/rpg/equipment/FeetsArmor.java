@@ -1,25 +1,24 @@
 package org.thermoweb.rpg.equipment;
 
 import lombok.Getter;
+import org.thermoweb.rpg.equipment.slots.Feets;
+import org.thermoweb.rpg.equipment.slots.Legs;
 import org.thermoweb.rpg.equipment.slots.Slots;
-import org.thermoweb.rpg.equipment.slots.Torso;
 
 @Getter
-public enum TorsoArmor implements Equipment<Torso> {
-    APPRENTICE_ROBE(0, 0),
-    LEATHER(0, 1),
-    CHAIN_MAIL(1, 1);
+public enum FeetsArmor implements Equipment<Feets> {
+    LEATHER_BOOTS(0, 1);
 
     private final int defense;
     private final int armor;
 
-    TorsoArmor(int defense, int armor) {
+    FeetsArmor(int defense, int armor) {
         this.defense = defense;
         this.armor = armor;
     }
 
     public Slots getSlot() {
-        return Slots.TORSO;
+        return Slots.FEETS;
     }
 
     @Override

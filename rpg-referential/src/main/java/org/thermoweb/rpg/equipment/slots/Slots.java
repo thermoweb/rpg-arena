@@ -1,6 +1,8 @@
 package org.thermoweb.rpg.equipment.slots;
 
+import org.thermoweb.rpg.equipment.BackArmor;
 import org.thermoweb.rpg.equipment.Equipment;
+import org.thermoweb.rpg.equipment.FeetsArmor;
 import org.thermoweb.rpg.equipment.HeadArmor;
 import org.thermoweb.rpg.equipment.LegsArmor;
 import org.thermoweb.rpg.equipment.TorsoArmor;
@@ -12,7 +14,9 @@ public enum Slots implements Slot {
     HEAD(Head.class),
     TORSO(Torso.class),
     HANDS(Hands.class),
-    LEGS(Legs.class);
+    LEGS(Legs.class),
+    FEETS(Feets.class),
+    BACK(Back.class);
 
     private final Class<? extends Slot> slot;
 
@@ -26,6 +30,8 @@ public enum Slots implements Slot {
             case TORSO -> TorsoArmor.valueOf(name);
             case HANDS -> Weapon.valueOf(name);
             case LEGS -> LegsArmor.valueOf(name);
+            case FEETS -> FeetsArmor.valueOf(name);
+            case BACK -> BackArmor.valueOf(name);
         };
     }
 
