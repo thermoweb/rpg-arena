@@ -2,22 +2,23 @@ package org.thermoweb.rpg.actions;
 
 import lombok.Getter;
 import org.thermoweb.rpg.utils.Damages;
-import org.thermoweb.rpg.utils.Dice;
 
 @Getter
 public enum Spells {
-    FIREBALL(18, 3, Dice.D8, 2),
-    FROSTBOLT(18, 1, Dice.D6, 1);
+    FROST_BOLT(18, 1, "1d4+1", 0),
+    FIRE_BOLT(18, 1, "1d8", 1),
+    MAGIC_MISSILE(18, 1, "3d4", 0),
+    FIREBALL(18, 2, "8d6", 2);
 
     private final int range;
     private final int level;
     private final Damages damages;
     private final int hpCost;
 
-    Spells(int range, int level, Dice dice, int hpCost) {
+    Spells(int range, int level, String damages, int hpCost) {
         this.range = range;
         this.level = level;
-        this.damages = Damages.builder().dice(dice).build();
+        this.damages = Damages.of(damages);
         this.hpCost = hpCost;
     }
 
