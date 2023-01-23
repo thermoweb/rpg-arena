@@ -6,15 +6,17 @@ import org.thermoweb.rpg.utils.Dice;
 
 @Getter
 public enum Spells {
-    FIREBALL(18, Dice.D8, 2),
-    FROSTBOLT(18, Dice.D6, 1);
+    FIREBALL(18, 3, Dice.D8, 2),
+    FROSTBOLT(18, 1, Dice.D6, 1);
 
     private final int range;
+    private final int level;
     private final Damages damages;
     private final int hpCost;
 
-    Spells(int range, Dice dice, int hpCost) {
+    Spells(int range, int level, Dice dice, int hpCost) {
         this.range = range;
+        this.level = level;
         this.damages = Damages.builder().dice(dice).build();
         this.hpCost = hpCost;
     }
