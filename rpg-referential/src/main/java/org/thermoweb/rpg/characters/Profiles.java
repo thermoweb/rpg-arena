@@ -1,6 +1,8 @@
 package org.thermoweb.rpg.characters;
 
+import org.thermoweb.rpg.equipment.BackArmor;
 import org.thermoweb.rpg.equipment.Equipment;
+import org.thermoweb.rpg.equipment.FeetsArmor;
 import org.thermoweb.rpg.equipment.TorsoArmor;
 import org.thermoweb.rpg.equipment.Weapon;
 
@@ -9,9 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 public enum Profiles {
-    FIGHTER(new Statistics(10, 5, -5), List.of(Weapon.SWORD)),
-    HUNTER(new Statistics(5, 5, 0), List.of(Weapon.CROSSBOW)),
-    ROGUE(new Statistics(5, 10, -5), List.of(Weapon.SWORD)),
+    FIGHTER(new Statistics(10, 5, -5), List.of(Weapon.SWORD, TorsoArmor.CHAIN_MAIL)),
+    HUNTER(new Statistics(5, 5, 0), List.of(Weapon.CROSSBOW, TorsoArmor.LEATHER, BackArmor.LEATHER_CLOACK, FeetsArmor.LEATHER_BOOTS)),
+    ROGUE(new Statistics(5, 10, -5), List.of(Weapon.DAGGER, TorsoArmor.LEATHER, FeetsArmor.LEATHER_BOOTS)),
     WIZARD(new Statistics(-5, 5, 10), List.of(Weapon.STAFF, TorsoArmor.APPRENTICE_ROBE), Skills.SPELL_CASTING);
 
     private final Statistics statistics;
