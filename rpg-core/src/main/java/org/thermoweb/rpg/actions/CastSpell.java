@@ -7,6 +7,7 @@ import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.characters.Skills;
 import org.thermoweb.rpg.environment.Arena;
+import org.thermoweb.rpg.utils.Dice;
 import org.thermoweb.rpg.utils.GridUtils;
 
 import java.util.Objects;
@@ -28,13 +29,22 @@ public final class CastSpell implements Action {
         }
 
         log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
-        from.spellCostHp(spell.getHpCost());
-        if (from.rollAbility(Ability.INTELLIGENCE)) {
-            int damages = spell.getDamages();
-            return target.takeSpellDamages(damages);
-        } else {
-            String actionLog = "spell missed...";
+
+        int roll = Dice.D100.roll();
+        int abilityThreshold = from.getStatistics().getAbility(Ability.INTELLIGENCE);
+
+        if (roll < abilityThreshold) {
+            String actionLog = String.format("roll %d against %d -> cast failed...", roll, abilityThreshold);
             log.info(actionLog);
+            return actionLog;
+        } else {
+            from.spellCostHp(spell.getHpCost());
+            int damages = spell.getDamages();
+            target.takeDamage(damages);
+
+            String actionLog = String.format("%s taking %d damages (%d raw). %d hit points left", target.getName(), damages, damages, target.getHitPoints());
+            log.info(actionLog);
+
             return actionLog;
         }
     }
