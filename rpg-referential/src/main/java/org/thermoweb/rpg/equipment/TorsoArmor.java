@@ -6,6 +6,7 @@ import org.thermoweb.rpg.equipment.slots.Torso;
 
 @Getter
 public enum TorsoArmor implements Equipment<Torso> {
+    APPRENTICE_ROBE(0, 0),
     CHAIN_MAIL(1, 1);
 
     private final int defense;
