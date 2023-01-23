@@ -11,17 +11,7 @@ Content-Type: application/json
     "strength": "INTELLIGENCE"
   },
   "species": "GNOME",
-  "profile": "WIZARD",
-  "equipment": {
-    "TORSO": {
-      "name": "CHAIN_MAIL",
-      "attrition": 100
-    },
-    "HANDS": {
-      "name": "STAFF",
-      "attrition": 100
-    }
-  }
+  "profile": "WIZARD"
 }
 
 > {%
