@@ -1,5 +1,7 @@
 package org.thermoweb.rpg.actions;
 
+import org.thermoweb.rpg.logs.ActionLog;
+import org.thermoweb.rpg.logs.MoveLog;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,7 @@ public final class Move implements Action {
     private DefaultCharacter owner;
 
     @Override
-    public String execute(Arena arena) throws ActionException {
+    public ActionLog execute(Arena arena) throws ActionException {
         Pair<Integer, Integer> coords = arena.getCharacterPairMap().get(owner.getId());
         int y = coords.getLeft();
         int x = coords.getRight();
@@ -33,7 +35,7 @@ public final class Move implements Action {
             log.info(actionLog);
             arena.move(owner, newPosition);
             GridUtils.consolePrint(arena);
-            return actionLog;
+            return new MoveLog(actionLog, coords, newPosition);
         } catch (IllegalArgumentException e) {
             throw new ActionException(e.getMessage(), e);
         }

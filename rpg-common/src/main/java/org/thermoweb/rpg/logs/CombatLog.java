@@ -1,4 +1,4 @@
-package org.thermoweb.rpg.encounter;
+package org.thermoweb.rpg.logs;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import java.util.List;
 @Builder
 public class CombatLog {
 
-    private final List<String> logs;
+    private final List<ActionLog> logs;
 
 }

@@ -1,5 +1,6 @@
 package org.thermoweb.rpg.data.encounters;
 
+import org.thermoweb.rpg.logs.ActionLog;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,5 @@ public class EncounterEntity {
     private EncounterStatus status;
     private Grid grid;
     private List<CharacterEntity> characters;
-    private List<String> combatLog;
+    private List<ActionLog> combatLog;
 }
