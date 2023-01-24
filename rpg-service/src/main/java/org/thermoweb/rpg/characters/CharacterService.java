@@ -5,6 +5,7 @@ import org.thermoweb.rpg.data.characters.CharacterEntity;
 import org.thermoweb.rpg.data.characters.CharacterRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,13 @@ public class CharacterService {
 
     public List<CharacterEntity> getAll() {
         return characterRepository.findAll();
+    }
+
+    public CharacterEntity getRandomExcept(CharacterEntity character) {
+        return characterRepository.random().getMappedResults().stream()
+                .filter(c -> !Objects.equals(c.getId(), character.getId()))
+                .findFirst()
+                .orElse(null);
     }
 
     public CharacterEntity create(CharacterEntity character) {
