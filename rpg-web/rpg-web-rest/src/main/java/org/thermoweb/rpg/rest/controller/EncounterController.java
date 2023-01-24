@@ -16,6 +16,8 @@ import org.thermoweb.rpg.rest.mapper.CharacterMapper;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/encounters")
@@ -30,7 +32,10 @@ public class EncounterController {
     @PostMapping
     public EncounterDto createEncounter(@RequestBody EncounterCreationRequest encounterCreationRequest) {
         CharacterEntity player = characterService.getById(encounterCreationRequest.characterId()).orElseThrow();
-        CharacterEntity bbeg = characterService.getById("63ba968d9c59b85ea404a8a0").orElseThrow();
+        CharacterEntity bbeg = Optional.ofNullable(encounterCreationRequest.opponentId())
+                .map(characterService::getById)
+                .flatMap(Function.identity())
+                .orElseGet(() -> characterService.getRandomExcept(player));
         EncounterManagerClient client = new EncounterManagerRestClient("http", "localhost", "8082");
 
         EncounterManagerCreationRequest request = EncounterManagerCreationRequest.builder()
@@ -48,4 +53,5 @@ public class EncounterController {
             throw new RuntimeException(e);
         }
     }
+
 }
