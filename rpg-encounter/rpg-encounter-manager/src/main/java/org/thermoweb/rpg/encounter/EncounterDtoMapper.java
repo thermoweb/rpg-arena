@@ -1,5 +1,6 @@
 package org.thermoweb.rpg.encounter;
 
+import org.thermoweb.rpg.logs.CombatLog;
 import org.thermoweb.rpg.mapper.CharacterDtoMapper;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.dto.EncounterDto;

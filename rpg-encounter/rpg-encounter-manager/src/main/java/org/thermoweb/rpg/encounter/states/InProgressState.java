@@ -1,5 +1,6 @@
 package org.thermoweb.rpg.encounter.states;
 
+import org.thermoweb.rpg.logs.ActionLog;
 import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.rpg.actions.Action;
 import org.thermoweb.rpg.actions.ActionException;
@@ -34,7 +35,8 @@ public final class InProgressState implements EncounterState {
                     try {
                         action.setOwner(character);
                         checkAction(action, actionsDone, maxActions, maxMove);
-                        String actionLog = action.execute(arena);
+                        ActionLog actionLog = action.execute(arena);
+                        log.info(actionLog.toString());
                         actionsDone.add(action);
                         encounter.getCombatLog().getLogs().add(actionLog);
                     } catch (ActionException e) {

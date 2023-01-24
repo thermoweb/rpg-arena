@@ -25,4 +25,8 @@ public enum Spells {
     public int getDamages() {
         return damages.get();
     }
+
+    public Damages.DamagesLog getLoggedDamages() {
+        return damages.getLoggedDamages();
+    }
 }
