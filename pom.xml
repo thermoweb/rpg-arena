@@ -18,6 +18,7 @@
         <module>rpg-encounter</module>
         <module>rpg-brain-demo</module>
         <module>rpg-web</module>
+        <module>rpg-common</module>
     </modules>
 
     <properties>
