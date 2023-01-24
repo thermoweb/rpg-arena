@@ -21,7 +21,7 @@ Content-Type: application/json
 
 %}
 
-### CreateEncounter
+### CreateEncounter with Random opponent
 
 POST localhost:8080/encounters
 Content-Type: application/json
