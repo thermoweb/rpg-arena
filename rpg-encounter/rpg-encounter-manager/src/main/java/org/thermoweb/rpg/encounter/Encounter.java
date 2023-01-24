@@ -1,5 +1,6 @@
 package org.thermoweb.rpg.encounter;
 
+import org.thermoweb.rpg.logs.CombatLog;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

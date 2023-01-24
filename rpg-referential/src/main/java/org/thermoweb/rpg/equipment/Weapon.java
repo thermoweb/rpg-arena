@@ -26,6 +26,10 @@ public enum Weapon implements Equipment<Hands> {
         return damages.get();
     }
 
+    public Damages.DamagesLog getLoggedDamages() {
+        return damages.getLoggedDamages();
+    }
+
     public int getRange() {
         return range;
     }

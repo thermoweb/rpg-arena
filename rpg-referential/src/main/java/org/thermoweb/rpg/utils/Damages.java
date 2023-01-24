@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +27,20 @@ public class Damages {
         for (int i = 0; i < number; i++) {
             result += DiceRoller.roll(dice.getFaces());
         }
-        return result;
+        return result + bonus;
+    }
+
+    public DamagesLog getLoggedDamages() {
+        List<Integer> rolls = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            rolls.add(DiceRoller.roll(dice.getFaces()));
+        }
+
+        return DamagesLog.builder()
+                .damages(this)
+                .rolls(rolls)
+                .total(rolls.stream().mapToInt(Integer::valueOf).sum() + bonus)
+                .build();
     }
 
     public static Damages of(String damages) {
@@ -38,5 +53,14 @@ public class Damages {
                 .dice(Dice.valueOf("D" + matcher.group(2)))
                 .bonus(Optional.ofNullable(matcher.group(3)).map(Integer::parseInt).orElse(0))
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%dd%d%+d", number, dice.getFaces(), bonus);
+    }
+
+    @Builder
+    public record DamagesLog(int total, List<Integer> rolls, Damages damages) {
     }
 }
