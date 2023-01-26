@@ -8,7 +8,9 @@ import org.thermoweb.rpg.encounter.states.EncounterStateException;
 import org.thermoweb.rpg.encounter.states.FailedState;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,6 +21,10 @@ public class EncounterService {
 
     public EncounterService(EncounterRepository encounterRepository) {
         this.encounterRepository = encounterRepository;
+    }
+
+    public List<Encounter> findAll() {
+        return encounterRepository.findAll().stream().map(EncounterEntityMapper::map).collect(Collectors.toList());
     }
 
     public Encounter create(Encounter encounter) {
