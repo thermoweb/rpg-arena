@@ -1,0 +1,15 @@
+### CreateCharacter Rogue
+POST localhost:8080/characters
+Content-Type: application/json
+
+
+{
+  "name": "Kenny, silent death",
+  "statistics": {
+    "weakness": "INTELLIGENCE",
+    "medium": "FORCE",
+    "strength": "DEXTERITY"
+  },
+  "species": "ELF",
+  "profile": "ROGUE"
+}
