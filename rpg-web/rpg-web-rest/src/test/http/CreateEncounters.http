@@ -1,0 +1,23 @@
+### CreateEncounter with opponent
+
+POST localhost:8080/encounters
+Content-Type: application/json
+
+{
+  "characterId": "63d054382cba8a4985a96d49",
+  "opponentId": "63d229052cba8a4985a96d4a",
+  "grid": "SQUARE_8",
+  "brain": {
+    "type": "REMOTE",
+    "uri": "http://localhost:8083/brain"
+  }
+}
+
+> {%
+    client.global.set("encounter_id", response.body.id)
+    client.log(client.global.get("encounter_id"))
+%}
+
+### LaunchEncounter
+
+POST localhost:8082/encounters/{{encounter_id}}:launch

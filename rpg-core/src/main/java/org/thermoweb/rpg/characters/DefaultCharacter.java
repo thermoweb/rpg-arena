@@ -9,6 +9,7 @@ import org.thermoweb.rpg.actions.Spells;
 import org.thermoweb.rpg.brain.Brain;
 import org.thermoweb.rpg.environment.Arena;
 import org.thermoweb.rpg.equipment.EquipmentSlots;
+import org.thermoweb.rpg.logs.CharacterLog;
 import org.thermoweb.rpg.utils.Dice;
 
 import java.util.List;
@@ -50,5 +51,9 @@ public class DefaultCharacter {
 
     public List<Action> getActions(Arena arena) {
         return brain.getActions(this, arena);
+    }
+
+    public CharacterLog getLog() {
+        return CharacterLog.builder().id(this.id).name(this.name).hitPoints(this.hitPoints).build();
     }
 }

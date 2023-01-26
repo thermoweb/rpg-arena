@@ -3,7 +3,6 @@ package org.thermoweb.rpg.actions;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.thermoweb.core.data.Pair;
 import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.characters.Skills;
@@ -33,8 +32,8 @@ public final class CastSpell implements Action {
         }
         SpellLog.SpellLogBuilder spellLog = SpellLog.builder();
         spellLog.spell(spell)
-                .from(new Pair<>(from.getId(), from.getName()))
-                .target(new Pair<>(target.getId(), target.getName()));
+                .from(from.getLog())
+                .target(target.getLog());
 
         log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
 
@@ -43,7 +42,7 @@ public final class CastSpell implements Action {
         String rollLog = String.format("roll %d on %s (%d)", roll, Ability.INTELLIGENCE, abilityThreshold);
         spellLog.roll(rollLog);
 
-        if (roll < abilityThreshold) {
+        if (roll > abilityThreshold) {
             return spellLog.outcome("cast failed...").build();
         } else {
             from.spellCostHp(spell.getHpCost());
