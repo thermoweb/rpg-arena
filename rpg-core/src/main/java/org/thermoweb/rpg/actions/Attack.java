@@ -3,7 +3,6 @@ package org.thermoweb.rpg.actions;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.thermoweb.core.data.Pair;
 import org.thermoweb.core.utils.RandomUtils;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.environment.Arena;
@@ -11,6 +10,7 @@ import org.thermoweb.rpg.equipment.Weapon;
 import org.thermoweb.rpg.equipment.WearableEquipment;
 import org.thermoweb.rpg.logs.ActionLog;
 import org.thermoweb.rpg.logs.AttackLog;
+import org.thermoweb.rpg.logs.CharacterLog;
 import org.thermoweb.rpg.utils.Damages;
 import org.thermoweb.rpg.utils.Dice;
 import org.thermoweb.rpg.utils.GridUtils;
@@ -39,12 +39,12 @@ public final class Attack implements Action {
         int roll = Dice.D100.roll();
         int abilityThreshold = from.getStatistics().getAbility(weapon.getAbility());
         AttackLog.AttackLogBuilder attackLog = AttackLog.builder()
-                .from(new Pair<>(from.getId(), from.getName()))
-                .target(new Pair<>(target.getId(), target.getName()))
+                .from(from.getLog())
+                .target(target.getLog())
                 .weapon(weapon)
                 .roll(String.format("roll %d on %s (%d)", roll, weapon.getAbility(), abilityThreshold));
 
-        if (roll < abilityThreshold) {
+        if (roll > abilityThreshold) {
             return attackLog.outcome("attacks missed...").build();
         } else {
             Damages.DamagesLog loggedDamages = weapon.getLoggedDamages();

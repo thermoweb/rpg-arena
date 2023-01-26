@@ -1,6 +1,5 @@
 package org.thermoweb.rpg.encounter;
 
-import org.thermoweb.rpg.logs.CombatLog;
 import org.thermoweb.rpg.character.CharacterEntityMapper;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.data.encounters.EncounterEntity;
@@ -13,9 +12,7 @@ import org.thermoweb.rpg.encounter.states.QueuedState;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 import org.thermoweb.rpg.environment.Arena;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class EncounterEntityMapper {
 
@@ -26,7 +23,7 @@ public class EncounterEntityMapper {
                 .arena(Arena.builder().characters(characters).gridPattern(encounter.getGrid()).build())
                 .state(map(encounter.getStatus()))
                 .characters(characters)
-                .combatLog(CombatLog.builder().logs(Optional.ofNullable(encounter.getCombatLog()).orElseGet(ArrayList::new)).build())
+                .combatLog(encounter.getCombatLog())
                 .build();
     }
 
@@ -35,7 +32,7 @@ public class EncounterEntityMapper {
                 .id(encounter.getId())
                 .status(encounter.getState().getStatus())
                 .grid(encounter.getArena().getGridPattern())
-                .combatLog(encounter.getCombatLog().getLogs())
+                .combatLog(encounter.getCombatLog())
                 .characters(encounter.getCharacters().stream().map(CharacterEntityMapper::map).toList())
                 .build();
     }

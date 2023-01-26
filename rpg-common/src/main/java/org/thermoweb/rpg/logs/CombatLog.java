@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 public class CombatLog {
 
-    private final List<ActionLog> logs;
+    private final List<RoundLog> logs;
+    private final CharacterLog winner;
 
 }
