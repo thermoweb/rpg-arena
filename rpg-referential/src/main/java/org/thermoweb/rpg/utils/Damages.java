@@ -37,7 +37,7 @@ public class Damages {
         }
 
         return DamagesLog.builder()
-                .damages(this)
+                .damages(this.toString())
                 .rolls(rolls)
                 .total(rolls.stream().mapToInt(Integer::valueOf).sum() + bonus)
                 .build();
@@ -61,6 +61,6 @@ public class Damages {
     }
 
     @Builder
-    public record DamagesLog(int total, List<Integer> rolls, Damages damages) {
+    public record DamagesLog(int total, List<Integer> rolls, String damages) {
     }
 }
