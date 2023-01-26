@@ -19,11 +19,12 @@ public record Statistics(int force, int dexterity, int intelligence) {
                 this.intelligence + statistics.intelligence);
     }
 
-    public record StartStatistics(Ability weakness, Ability medium, Ability strength) {
+    @Builder
+    public record StartStatistics(Ability weakness, Ability intermediate, Ability strength) {
         public Statistics getStatistics() {
             Statistics stats = new Statistics(0, 0, 0);
             stats = getTempStats(weakness, 30, stats);
-            stats = getTempStats(medium, 40, stats);
+            stats = getTempStats(intermediate, 40, stats);
             stats = getTempStats(strength, 50, stats);
             return stats;
         }

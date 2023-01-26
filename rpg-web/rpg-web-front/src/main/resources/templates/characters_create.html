@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Characters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}">should not appear</div>
+
+<div class="container">
+    <br><br>
+    <div class="card">
+        <div class="card-header">Create new Character</div>
+        <div class="card-body">
+            <form action="#" th:action="@{/ui/characters/create}" th:object="${createRequest}" method="post">
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Character's name</span>
+                            <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                                   aria-describedby="basic-addon1" th:field="*{name}">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Profile">Profile</label>
+                            <select class="form-select" id="Profile" th:field="*{profile}">
+                                <option th:each="profile : ${profiles}" th:value="${profile.name()}"
+                                        th:text="${profile.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Species">Species</label>
+                            <select class="form-select" id="Species" th:field="*{species}">
+                                <option th:each="specy : ${species}" th:value="${specy.name()}"
+                                        th:text="${specy.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Strength">Strength</label>
+                            <select class="form-select" id="Strength" th:field="*{strength}">
+                                <option th:each="ability : ${abilities}" th:value="${ability.name()}"
+                                        th:text="${ability.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Intermediate">Intermediate</label>
+                            <select class="form-select" id="Intermediate" th:field="*{intermediate}">
+                                <option th:each="ability : ${abilities}" th:value="${ability.name()}"
+                                        th:text="${ability.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Weakness">Weakness</label>
+                            <select class="form-select" id="Weakness" th:field="*{weakness}">
+                                <option th:each="ability : ${abilities}" th:value="${ability.name()}"
+                                        th:text="${ability.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

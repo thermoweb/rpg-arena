@@ -5,11 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-@Getter
 @Builder
-public class CombatLog {
-
-    private final List<RoundLog> logs;
-    private final CharacterLog winner;
+public record CombatLog(List<RoundLog> logs, CharacterLog winner) {
 
 }

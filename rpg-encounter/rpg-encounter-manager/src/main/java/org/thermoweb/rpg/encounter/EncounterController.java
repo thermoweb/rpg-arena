@@ -12,6 +12,7 @@ import org.thermoweb.rpg.encounters.EncounterStatus;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/encounters")
@@ -24,8 +25,8 @@ public class EncounterController {
     }
 
     @GetMapping
-    public List<String> getAll() {
-        return Collections.emptyList();
+    public List<EncounterDto> getAll() {
+        return encounterService.findAll().stream().map(EncounterDtoMapper::map).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
