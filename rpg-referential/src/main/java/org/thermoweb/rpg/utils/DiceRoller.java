@@ -10,6 +10,6 @@ public class DiceRoller {
     }
 
     public static int roll(int number) {
-        return generator.nextInt(number);
+        return 1 + generator.nextInt(number);
     }
 }

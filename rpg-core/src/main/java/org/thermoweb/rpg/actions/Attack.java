@@ -3,7 +3,6 @@ package org.thermoweb.rpg.actions;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.thermoweb.core.data.Pair;
 import org.thermoweb.core.utils.RandomUtils;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.environment.Arena;
@@ -23,10 +22,10 @@ import static java.lang.Math.max;
 @Builder
 @Getter
 @Slf4j
-public final class Attack implements Action {
+public final class Attack implements TargetableAction {
 
     private final Weapon weapon;
-    private final DefaultCharacter target;
+    private DefaultCharacter target;
     private DefaultCharacter from;
 
     @Override
@@ -39,13 +38,13 @@ public final class Attack implements Action {
         int roll = Dice.D100.roll();
         int abilityThreshold = from.getStatistics().getAbility(weapon.getAbility());
         AttackLog.AttackLogBuilder attackLog = AttackLog.builder()
-                .from(new Pair<>(from.getId(), from.getName()))
-                .target(new Pair<>(target.getId(), target.getName()))
+                .from(from.getLog())
+                .target(target.getLog())
                 .weapon(weapon)
                 .roll(String.format("roll %d on %s (%d)", roll, weapon.getAbility(), abilityThreshold));
 
-        if (roll < abilityThreshold) {
-            return attackLog.outcome("attacks missed...").build();
+        if (roll > abilityThreshold) {
+            return attackLog.status(ActionLog.Status.FAILED).outcome("attacks missed...").build();
         } else {
             Damages.DamagesLog loggedDamages = weapon.getLoggedDamages();
             int armorDamage = Optional.ofNullable(RandomUtils.getRandomItem(target.getEquipmentSlots().getSlots()))
@@ -55,6 +54,7 @@ public final class Attack implements Action {
             target.takeDamage(damagesTaken);
 
             return attackLog
+                    .status(ActionLog.Status.SUCCESS)
                     .damages(loggedDamages)
                     .outcome(String.format("%s taking %d damages (%d raw). %d hit points left",
                             target.getName(),
@@ -78,5 +78,10 @@ public final class Attack implements Action {
         } catch (NullPointerException e) {
             throw new ActionException("Action is not valid", e);
         }
+    }
+
+    @Override
+    public void setTarget(DefaultCharacter character) {
+        this.target = character;
     }
 }

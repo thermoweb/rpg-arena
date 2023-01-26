@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class DumbBrain implements Brain {
     @Override
@@ -22,32 +23,19 @@ public class DumbBrain implements Brain {
         return arena.getCharacters().stream()
                 .filter(c -> !Objects.equals(c.getId(), defaultCharacter.getId()))
                 .findFirst()
-                .map(target -> List.of(
-                                getRandomAttack(defaultCharacter, target),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build(),
-                                Move.builder()
-                                        .direction(Direction.getRandomDirection())
-                                        .build()
-                        )
-                )
+                .map(target -> getActionList(defaultCharacter, target))
                 .orElseGet(Collections::emptyList);
+    }
+
+    private List<Action> getActionList(DefaultCharacter from, DefaultCharacter target) {
+        List<Action> actions = new ArrayList<>();
+        actions.add(getRandomAttack(from, target));
+        IntStream.range(0, from.getSpecies().getSpeed())
+                .forEach(n -> actions
+                        .add(Move.builder()
+                                .direction(Direction.getRandomDirection())
+                                .build()));
+        return actions;
     }
 
     private static Action getRandomAttack(DefaultCharacter defaultCharacter, DefaultCharacter target) {

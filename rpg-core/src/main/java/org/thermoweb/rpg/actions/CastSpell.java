@@ -3,7 +3,6 @@ package org.thermoweb.rpg.actions;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.thermoweb.core.data.Pair;
 import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.characters.Skills;
@@ -19,11 +18,12 @@ import java.util.Objects;
 @Builder
 @Getter
 @Slf4j
-public final class CastSpell implements Action {
+public final class CastSpell implements TargetableAction {
 
-    private final DefaultCharacter target;
     private final Spells spell;
     private DefaultCharacter from;
+
+    private DefaultCharacter target;
 
     @Override
     public ActionLog execute(Arena arena) throws ActionException {
@@ -31,10 +31,9 @@ public final class CastSpell implements Action {
         if (GridUtils.getDirectDistance(arena.getCharacterPairMap().get(from.getId()), arena.getCharacterPairMap().get(target.getId())) > spell.getRange()) {
             throw new ActionException("target is too far to attack.");
         }
+
         SpellLog.SpellLogBuilder spellLog = SpellLog.builder();
-        spellLog.spell(spell)
-                .from(new Pair<>(from.getId(), from.getName()))
-                .target(new Pair<>(target.getId(), target.getName()));
+        spellLog.spell(spell);
 
         log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
 
@@ -43,14 +42,17 @@ public final class CastSpell implements Action {
         String rollLog = String.format("roll %d on %s (%d)", roll, Ability.INTELLIGENCE, abilityThreshold);
         spellLog.roll(rollLog);
 
-        if (roll < abilityThreshold) {
-            return spellLog.outcome("cast failed...").build();
+        if (roll > abilityThreshold) {
+            return spellLog.status(ActionLog.Status.FAILED).outcome("cast failed...").build();
         } else {
             from.spellCostHp(spell.getHpCost());
             Damages.DamagesLog loggedDamages = spell.getLoggedDamages();
             target.takeDamage(loggedDamages.total());
 
             return spellLog
+                    .status(ActionLog.Status.SUCCESS)
+                    .from(from.getLog())
+                    .target(target.getLog())
                     .damages(loggedDamages)
                     .outcome(String.format("%s taking %d damages (%d raw). %d hit points left",
                             target.getName(),
@@ -80,5 +82,10 @@ public final class CastSpell implements Action {
         } catch (NullPointerException e) {
             throw new ActionException("Action is not valid", e);
         }
+    }
+
+    @Override
+    public void setTarget(DefaultCharacter character) {
+        this.target = character;
     }
 }
