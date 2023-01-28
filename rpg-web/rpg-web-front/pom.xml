@@ -7,9 +7,10 @@
         <groupId>org.thermoweb.rpg</groupId>
         <artifactId>rpg-arena</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rpg-dto-common</artifactId>
+    <artifactId>rpg-web-front</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,20 +20,33 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${springboot.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.thermoweb.rpg</groupId>
-            <artifactId>rpg-referential</artifactId>
+            <artifactId>rpg-rest-client</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.thermoweb.rpg</groupId>
-            <artifactId>rpg-common</artifactId>
+            <artifactId>rpg-encounter-client</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
 </project>

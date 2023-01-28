@@ -8,7 +8,7 @@ public final class FinishedState implements EncounterState {
     @Override
     public void prepare(Encounter encounter) throws EncounterStateException {
         encounter.getCharacters().forEach(character -> character.setHitPoints(character.getMaxHitPoints()));
-        encounter.getCombatLog(). getLogs().clear();
+        encounter.getCombatLog().logs().clear();
         encounter.setState(new QueuedState());
     }
 

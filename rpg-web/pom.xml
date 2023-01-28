@@ -13,8 +13,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>rpg-web-client</module>
-        <module>rpg-web-rest</module>
+        <module>rpg-rest-client</module>
+        <module>rpg-rest-server</module>
+        <module>rpg-web-front</module>
     </modules>
 
     <properties>

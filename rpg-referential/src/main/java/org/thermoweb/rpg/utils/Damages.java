@@ -62,5 +62,10 @@ public class Damages {
 
     @Builder
     public record DamagesLog(int total, List<Integer> rolls, String damages) {
+
+        @Override
+        public String toString() {
+            return String.format("%d (%s)", total, damages);
+        }
     }
 }
