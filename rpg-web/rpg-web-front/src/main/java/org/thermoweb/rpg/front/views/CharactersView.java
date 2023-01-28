@@ -14,10 +14,7 @@ import org.thermoweb.rpg.characters.Profiles;
 import org.thermoweb.rpg.characters.Species;
 import org.thermoweb.rpg.characters.Statistics;
 import org.thermoweb.rpg.dto.CharacterDto;
-import org.thermoweb.rpg.dto.EncounterDto;
-import org.thermoweb.rpg.dto.brain.BrainDto;
 import org.thermoweb.rpg.rest.client.CharacterCreationRequest;
-import org.thermoweb.rpg.rest.client.EncounterCreationRequest;
 import org.thermoweb.rpg.rest.client.RpgArenaClient;
 import org.thermoweb.rpg.rest.client.RpgArenaRestClient;
 
@@ -57,14 +54,14 @@ public class CharactersView {
     public String create(@ModelAttribute CreateCharacterForm request) {
         try {
             CharacterDto character = rpgArenaClient.createCharacter(CharacterCreationRequest.builder()
-                            .name(request.name())
-                            .statistics(Statistics.StartStatistics.builder()
-                                    .strength(request.strength())
-                                    .intermediate(request.intermediate())
-                                    .weakness(request.weakness())
-                                    .build())
-                            .species(request.species())
-                            .profile(request.profile())
+                    .name(request.name())
+                    .statistics(Statistics.StartStatistics.builder()
+                            .strength(request.strength())
+                            .intermediate(request.intermediate())
+                            .weakness(request.weakness())
+                            .build())
+                    .species(request.species())
+                    .profile(request.profile())
                     .build());
             return "redirect:/ui/characters/" + character.id();
         } catch (IOException | URISyntaxException | InterruptedException e) {
@@ -77,24 +74,17 @@ public class CharactersView {
     public String getEncounter(@PathVariable String id, Model model) {
         try {
             CharacterDto character = rpgArenaClient.getById(id).orElseThrow();
+            List<CharacterDto> challengers = rpgArenaClient.getAll().stream().filter(c -> !c.id().equals(id)).toList();
             model.addAttribute("character", character);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return "characters_view";
-    }
-
-    @GetMapping("{id}:random")
-    public String createRandomEncounter(@PathVariable String id) {
-        try {
-            EncounterDto encounter = rpgArenaClient.createRandomEncounter(EncounterCreationRequest.builder()
+            model.addAttribute("createEncounterRequest", CreateEncounterForm.builder()
                     .characterId(id)
-                    .brain(new BrainDto(BrainType.REMOTE, "http://localhost:8083/brain"))
-                    .grid(Grid.SQUARE_16)
+                    .brainUri("http://localhost:8083/brain")
                     .build());
+            model.addAttribute("brainTypes", BrainType.values());
+            model.addAttribute("grids", Grid.values());
+            model.addAttribute("challengers", challengers);
 
-            return "redirect:/ui/encounters/" + encounter.id();
+            return "characters_view";
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
