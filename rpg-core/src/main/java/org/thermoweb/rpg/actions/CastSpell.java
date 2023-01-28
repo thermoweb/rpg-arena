@@ -32,8 +32,10 @@ public final class CastSpell implements TargetableAction {
             throw new ActionException("target is too far to attack.");
         }
 
-        SpellLog.SpellLogBuilder spellLog = SpellLog.builder();
-        spellLog.spell(spell);
+        SpellLog.SpellLogBuilder spellLog = SpellLog.builder()
+                .from(from.getLog())
+                .target(target.getLog())
+                .spell(spell);
 
         log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
 
@@ -51,8 +53,6 @@ public final class CastSpell implements TargetableAction {
 
             return spellLog
                     .status(ActionLog.Status.SUCCESS)
-                    .from(from.getLog())
-                    .target(target.getLog())
                     .damages(loggedDamages)
                     .outcome(String.format("%s taking %d damages (%d raw). %d hit points left",
                             target.getName(),
