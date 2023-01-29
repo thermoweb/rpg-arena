@@ -24,6 +24,8 @@ import java.util.List;
 @Getter
 public class RemoteBrain implements Brain {
 
+    public static final String ACTION_URI = "/actions";
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String uri;
 
@@ -35,7 +37,7 @@ public class RemoteBrain implements Brain {
     public List<Action> getActions(DefaultCharacter defaultCharacter, Arena arena) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(uri + "/actions"))
+                    .uri(new URI(uri + ACTION_URI))
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(objectMapper

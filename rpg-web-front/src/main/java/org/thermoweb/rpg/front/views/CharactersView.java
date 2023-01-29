@@ -14,6 +14,7 @@ import org.thermoweb.rpg.characters.Profiles;
 import org.thermoweb.rpg.characters.Species;
 import org.thermoweb.rpg.characters.Statistics;
 import org.thermoweb.rpg.dto.CharacterDto;
+import org.thermoweb.rpg.front.conf.RpgArenaFrontProperties;
 import org.thermoweb.rpg.rest.client.CharacterCreationRequest;
 import org.thermoweb.rpg.rest.client.RpgArenaClient;
 import org.thermoweb.rpg.rest.client.RpgArenaRestClient;
@@ -26,7 +27,11 @@ import java.util.List;
 @RequestMapping("/ui/characters")
 public class CharactersView {
 
-    private final RpgArenaClient rpgArenaClient = new RpgArenaRestClient("http", "localhost", "8080");
+    private final RpgArenaClient rpgArenaClient;
+
+    public CharactersView(RpgArenaFrontProperties rpgArenaFrontProperties) {
+        this.rpgArenaClient = new RpgArenaRestClient(rpgArenaFrontProperties.getWebServer());
+    }
 
     @GetMapping
     public String characters(Model model) {
@@ -67,7 +72,6 @@ public class CharactersView {
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @GetMapping("{id}")

@@ -11,6 +11,7 @@ import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
 import org.thermoweb.rpg.encounter.client.EncounterManagerCreationRequest;
 import org.thermoweb.rpg.encounter.client.EncounterManagerRestClient;
 import org.thermoweb.rpg.rest.client.EncounterCreationRequest;
+import org.thermoweb.rpg.rest.config.RpgArenaWebProperties;
 import org.thermoweb.rpg.rest.mapper.CharacterMapper;
 
 import java.io.IOException;
@@ -23,9 +24,11 @@ import java.util.function.Function;
 @RequestMapping("/encounters")
 public class EncounterController {
 
+    private final EncounterManagerClient encounterManagerClient;
     private final CharacterService characterService;
 
-    public EncounterController(CharacterService characterService) {
+    public EncounterController(CharacterService characterService, RpgArenaWebProperties rpgArenaWebProperties) {
+        this.encounterManagerClient = new EncounterManagerRestClient(rpgArenaWebProperties.getEncounterManager());
         this.characterService = characterService;
     }
 
@@ -36,7 +39,6 @@ public class EncounterController {
                 .map(characterService::getById)
                 .flatMap(Function.identity())
                 .orElseGet(() -> characterService.getRandomExcept(player));
-        EncounterManagerClient client = new EncounterManagerRestClient("http", "localhost", "8082");
 
         EncounterManagerCreationRequest request = EncounterManagerCreationRequest.builder()
                 .participants(
@@ -48,7 +50,7 @@ public class EncounterController {
                 .grid(encounterCreationRequest.grid())
                 .build();
         try {
-            return client.create(request);
+            return encounterManagerClient.create(request);
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }

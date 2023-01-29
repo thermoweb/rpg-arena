@@ -62,7 +62,6 @@ public class CharacterEntityMapper {
             return null;
         }
         return switch (brain.getBrainType()) {
-
             case LOCAL -> new DumbBrain();
             case REMOTE -> new RemoteBrain(brain.getUri());
         };

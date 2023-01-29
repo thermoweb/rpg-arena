@@ -1,8 +1,8 @@
 package org.thermoweb.rpg.rest.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.thermoweb.core.http.JsonBodyHandler;
+import org.thermoweb.rpg.client.MicroServiceClient;
+import org.thermoweb.rpg.client.MicroServiceProperties;
 import org.thermoweb.rpg.dto.CharacterDto;
 import org.thermoweb.rpg.dto.EncounterDto;
 
@@ -15,17 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class RpgArenaRestClient implements RpgArenaClient {
+public class RpgArenaRestClient extends MicroServiceClient implements RpgArenaClient {
 
-    private static final String CHARACTERS_ENDPOINT = "/characters";
-    private static final String ENCOUNTERS_ENDPOINT = "/encounters";
-    private final String prefixUri;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public RpgArenaRestClient(String protocol, String host, String port) {
-        this.prefixUri = Optional.ofNullable(port)
-                .map(p -> protocol + "://" + host + ":" + port)
-                .orElseGet(() -> protocol + "://" + host);
+    public RpgArenaRestClient(MicroServiceProperties properties) {
+        super(properties);
     }
 
     @Override

@@ -18,6 +18,7 @@ import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
 import org.thermoweb.rpg.encounter.client.EncounterManagerRestClient;
 import org.thermoweb.rpg.equipment.Equipment;
 import org.thermoweb.rpg.rest.client.CharacterCreationRequest;
+import org.thermoweb.rpg.rest.config.RpgArenaWebProperties;
 import org.thermoweb.rpg.rest.mapper.CharacterMapper;
 
 import java.io.IOException;
@@ -33,9 +34,10 @@ import java.util.stream.Collectors;
 public class CharactersController {
 
     private final CharacterService characterService;
-    private final EncounterManagerClient encounterClient = new EncounterManagerRestClient("http","localhost","8082");
+    private final EncounterManagerClient encounterClient;
 
-    public CharactersController(CharacterService characterService) {
+    public CharactersController(CharacterService characterService, RpgArenaWebProperties rpgArenaWebProperties) {
+        this.encounterClient = new EncounterManagerRestClient(rpgArenaWebProperties.getEncounterManager());
         this.characterService = characterService;
     }
 

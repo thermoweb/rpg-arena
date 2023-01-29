@@ -1,0 +1,19 @@
+rpg-arena-front:
+  web-server:
+    host: localhost
+    port: 8084
+    protocol: http
+    prefixUri: http://localhost:8084
+  encounter-manager:
+    host: localhost
+    port: 8082
+    protocol: http
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    cache: false
+  web:
+    resources:
+      cache:
+        period: 0
