@@ -31,7 +31,7 @@ public final class Attack implements TargetableAction {
     @Override
     public ActionLog execute(Arena arena) throws ActionException {
         autoCheck();
-        if (GridUtils.getDirectDistance(arena.getCharacterPairMap().get(from.getId()), arena.getCharacterPairMap().get(target.getId())) > weapon.getRange()) {
+        if (getDirectDistance(arena) > weapon.getRange()) {
             throw new ActionException("target is too far to attack.");
         }
 
@@ -63,6 +63,12 @@ public final class Attack implements TargetableAction {
                             target.getHitPoints()))
                     .build();
         }
+    }
+
+    private double getDirectDistance(Arena arena) {
+        return Math.round(GridUtils
+                .getDirectDistance(arena.getCharacterPairMap().get(from.getId()),
+                        arena.getCharacterPairMap().get(target.getId())));
     }
 
     @Override
