@@ -9,7 +9,7 @@ public enum Weapon implements Equipment<Hands> {
     SWORD("1d6+1", 1, Ability.FORCE),
     DAGGER("1d6", 1, Ability.DEXTERITY),
     STAFF("1d4", 1, Ability.FORCE),
-    BOW("1d6", 10, Ability.DEXTERITY),
+    BOW("1d6", 8, Ability.DEXTERITY),
     CROSSBOW("1d6+1", 10, Ability.DEXTERITY);
 
     private final Damages damages;
