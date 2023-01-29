@@ -27,6 +27,10 @@ public class EncounterService {
         return encounterRepository.findAll().stream().map(EncounterEntityMapper::map).collect(Collectors.toList());
     }
 
+    public List<Encounter> findAllByCharacterId(String id) {
+        return encounterRepository.findAllByCharacterId(id).stream().map(EncounterEntityMapper::map).collect(Collectors.toList());
+    }
+
     public Encounter create(Encounter encounter) {
         encounter.setState(new CreatedState());
         return EncounterEntityMapper.map(encounterRepository.save(EncounterEntityMapper.map(encounter)));

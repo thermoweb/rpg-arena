@@ -10,43 +10,7 @@
 <div th:replace="~{fragments/navbar :: navbar}">should not appear</div>
 
 <div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Status</th>
-            <th scope="col">Characters</th>
-            <th scope="col">Grid</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tr th:each="encounter : ${encounters}">
-            <td>
-                <a th:href="'/ui/encounters/' + ${encounter.id()}" th:text="${encounter.id()}"/>
-            </td>
-            <td>
-                <th:block th:switch="${encounter.status().name()}">
-                    <span th:case="FINISHED" class="badge text-bg-success">FINISHED</span>
-                    <span th:case="FAILED" class="badge text-bg-danger">FAILED</span>
-                    <span th:case="*" class="badge text-bg-primary" th:text="${encounter.status().name()}"></span>
-                </th:block>
-            </td>
-            <td>
-                <a th:each="character : ${encounter.characters()}" th:href="'/ui/characters/' + ${character.id()}"
-                   th:text="'[' + ${character.name()} + ']'"></a>
-            </td>
-            <td th:text="${encounter.grid()}"></td>
-            <td>
-                <a th:if="${encounter.status().name() == 'CREATED'}"
-                   th:href="'/ui/encounters/' + ${encounter.id()} + ':launch'" class="btn btn-danger "
-                   role="button"
-                   aria-disabled="true">Launch</a>
-                <a th:if="${encounter.status().name() == 'FAILED'}"
-                   th:href="'/ui/encounters/' + ${encounter.id()} + ':launch'" class="btn btn-danger "
-                   role="button"
-                   aria-disabled="true">Retry</a>
-            </td>
-        </tr>
+    <table class="table" th:replace="~{fragments/encounters_list :: encounters-list}">
     </table>
 </div>
 

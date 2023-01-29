@@ -11,84 +11,79 @@
 
 <div class="container">
     <br>
-    <form action="#" th:action="@{/ui/encounters/create}" th:object="${createEncounterRequest}"
-          method="post">
-        <div class="row g-3 align-items-center">
-            <div class="col">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Brain URI</span>
-                    <input type="text" class="form-control" placeholder="Name" aria-label="brainUri"
-                           aria-describedby="basic-addon1" th:field="*{brainUri}">
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="Profile">Profile</label>
-                    <select class="form-select" id="Profile" th:field="*{brainType}">
-                        <option th:each="brainType : ${brainTypes}" th:value="${brainType.name()}"
-                                th:text="${brainType.name()}"/>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row g-3 align-items-center">
-            <div class="col">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="characterId">Id</span>
-                    <input type="text" class="form-control" placeholder="Id" aria-label="characterId"
-                           aria-describedby="characterId" th:field="*{characterId}" readonly>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="Opponent">Opponent</label>
-                    <select class="form-select" id="Opponent" th:field="*{opponentId}">
-                        <option value="">RANDOM</option>
-                        <option th:each="challenger : ${challengers}" th:value="${challenger.id()}"
-                                th:text="${challenger.name()}"/>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="Species">Species</label>
-                    <select class="form-select" id="Species" th:field="*{grid}">
-                        <option th:each="grid : ${grids}" th:value="${grid.name()}"
-                                th:text="${grid.name()}"/>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-danger">Create Encounter</button>
-            </div>
-        </div>
-    </form>
     <br>
-    <br>
-    <div class="card">
-        <div class="card-header" th:text="${character.name()}">
-            Quote
+    <div class="row">
+        <div class="col">
+            <div th:replace="~{fragments/character_card :: character-card}"></div>
         </div>
-        <div class="card-body">
-
-            <p th:text="${character.species()}"/>
-            <p th:text="${character.profiles()}"/>
-            <p th:text="${character.hitPoints()} + ' HP'"/>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Slot</th>
-                    <th>Name</th>
-                    <th>attrition</th>
-                </tr>
-                </thead>
-                <tr th:each="equipment : ${character.equipment()}">
-                    <td th:text="${equipment.key}">Slot</td>
-                    <td th:text="${equipment.value.name}">Name</td>
-                    <td th:text="${equipment.value.attrition} + ' %'">Attrition</td>
-                </tr>
-            </table>
-
+        <div class="col">
+            <div class="row">
+                <th:block th:if="!${character.spellbook().isEmpty()}">
+                    <div th:replace="~{fragments/spellbook :: spellbook-card}"></div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <br>
+            <form action="#" th:action="@{/ui/encounters/create}" th:object="${createEncounterRequest}"
+                  method="post">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="characterId">Id</span>
+                            <input type="text" class="form-control" placeholder="Id" aria-label="characterId"
+                                   aria-describedby="characterId" th:field="*{characterId}" readonly>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Brain URI</span>
+                            <input type="text" class="form-control" placeholder="Name" aria-label="brainUri"
+                                   aria-describedby="basic-addon1" th:field="*{brainUri}">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Profile">Type</label>
+                            <select class="form-select" id="Profile" th:field="*{brainType}">
+                                <option th:each="brainType : ${brainTypes}" th:value="${brainType.name()}"
+                                        th:text="${brainType.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Opponent">Opponent</label>
+                            <select class="form-select" id="Opponent" th:field="*{opponentId}">
+                                <option value="">RANDOM</option>
+                                <option th:each="challenger : ${challengers}" th:value="${challenger.id()}"
+                                        th:text="${challenger.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="Grid">Grid</label>
+                            <select class="form-select" id="Grid" th:field="*{grid}">
+                                <option th:each="grid : ${grids}" th:value="${grid.name()}"
+                                        th:text="${grid.name()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-danger">Create Encounter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" th:with="encounters=${character.encounters()}">
+        <div class="col">
+            <table th:replace="~{fragments/encounters_list :: encounters-list}"></table>
         </div>
     </div>
 </div>
