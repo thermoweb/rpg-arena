@@ -55,6 +55,13 @@ public class Damages {
                 .build();
     }
 
+    public int averageDamage() {
+        int min = number + bonus;
+        int max = number * dice.getFaces() + bonus;
+
+        return (min + max) / 2;
+    }
+
     @Override
     public String toString() {
         return String.format("%dd%d%+d", number, dice.getFaces(), bonus).replace("+0", "");

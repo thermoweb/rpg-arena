@@ -88,4 +88,9 @@ public final class CastSpell implements TargetableAction {
     public void setTarget(DefaultCharacter character) {
         this.target = character;
     }
+
+    @Override
+    public Damages getDamages() {
+        return spell.getDamages();
+    }
 }
