@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public interface EncounterManagerClient {
-
+    String ENCOUNTERS_ENDPOINT = "/encounters";
     EncounterDto create(EncounterManagerCreationRequest encounterCreationRequest) throws URISyntaxException, IOException, InterruptedException;
 
     List<EncounterDto> getAll() throws IOException, InterruptedException;
