@@ -1,7 +1,8 @@
 package org.thermoweb.rpg.encounter.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.thermoweb.core.http.JsonBodyHandler;
+import org.thermoweb.rpg.client.MicroServiceClient;
+import org.thermoweb.rpg.client.MicroServiceProperties;
 import org.thermoweb.rpg.dto.EncounterDto;
 
 import java.io.IOException;
@@ -10,22 +11,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Optional;
 
-public class EncounterManagerRestClient implements EncounterManagerClient {
+public class EncounterManagerRestClient extends MicroServiceClient implements EncounterManagerClient {
 
-    private static final String ENCOUNTERS_ENDPOINT = "/encounters";
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String prefixUri;
-
-    public EncounterManagerRestClient(String protocol, String host) {
-        this(protocol, host, null);
-    }
-
-    public EncounterManagerRestClient(String protocol, String host, String port) {
-        this.prefixUri = Optional.ofNullable(port)
-                .map(p -> protocol + "://" + host + ":" + port)
-                .orElseGet(() -> protocol + "://" + host);
+    public EncounterManagerRestClient(MicroServiceProperties properties) {
+        super(properties);
     }
 
     @Override
@@ -68,6 +58,7 @@ public class EncounterManagerRestClient implements EncounterManagerClient {
 
         return getEncounterList(uri);
     }
+
     @Override
     public List<EncounterDto> findAllByCharacterId(String id) throws IOException, InterruptedException {
         final String uri = prefixUri + ENCOUNTERS_ENDPOINT + "/search?characterId=" + id;

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.thermoweb.rpg.actions.Action;
 import org.thermoweb.rpg.brain.DumbBrain;
+import org.thermoweb.rpg.brain.RemoteBrain;
 import org.thermoweb.rpg.dto.brain.BrainActionListRequest;
 import org.thermoweb.rpg.dto.brain.BrainActionListResponse;
 import org.thermoweb.rpg.mapper.ActionMapper;
@@ -20,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class BrainController {
 
-    @PostMapping(value = "/actions", consumes = {"application/json"})
+    @PostMapping(value = RemoteBrain.ACTION_URI, consumes = {"application/json"})
     public BrainActionListResponse getActions(@RequestBody BrainActionListRequest request) {
         log.debug("getting actions");
         DumbBrain brain = new DumbBrain();

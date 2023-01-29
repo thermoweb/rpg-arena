@@ -1,3 +1,8 @@
+rpg-web:
+  encounter-manager:
+    host: localhost
+    port: 8082
+    protocol: http
 spring:
   data:
     mongodb:
@@ -7,3 +12,5 @@ spring:
       port: 27017
       database: rpg-arena
       authentication-database: rpg-arena
+server:
+  port: 8084
