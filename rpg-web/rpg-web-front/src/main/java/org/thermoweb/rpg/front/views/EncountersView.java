@@ -64,7 +64,7 @@ public class EncountersView {
             throw new RuntimeException(e);
         }
 
-        return "encounter_view";
+        return "encounters_view";
     }
 
     @GetMapping("{id}:launch")
@@ -83,6 +83,6 @@ public class EncountersView {
             throw new RuntimeException(e);
         }
 
-        return "encounter_view";
+        return "encounters_view";
     }
 }

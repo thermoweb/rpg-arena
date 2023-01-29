@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card" th:fragment="character-card">
+    <div class="card-body">
+        <h5 class="card-title">
+            <button th:if="${encounter?.combatLog?.winner?.id() == character.id()}"
+                    type="button" class="btn btn-warning" disabled>
+                <img src="/images/trophy-fill.svg" alt="trophy">
+                Winner
+            </button>
+            <span th:text="${character.name()}"></span>
+            <th:block th:if="${encounter != null}">
+                <a th:href="'/ui/characters/' + ${character.id()}">
+                    <img src="/images/go-to.svg" width="30" height="24">
+                </a>
+            </th:block>
+
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted" th:text="${character.species + ' ' + character.profiles}"></h6>
+        <div class="row">
+            <div class="col">
+                <img src="/images/heart-pulse.svg" title="Hit Points" alt="hit point icon" width="30" height="24"/>
+                &nbsp;
+                <span th:text="${character.hitPoints} + ' / ' + ${character.maxHitPoints}"/>
+                <br>
+                <br>
+                <img src="/images/fist-force.svg" title="Force" alt="fist for force icon" width="30" height="24"/>
+                &nbsp;
+                <span th:text="${character.statistics.get(T(org.thermoweb.rpg.characters.Ability).FORCE)}"/>
+                <br>
+                <br>
+                <img src="/images/gym-dexterity.svg" title="Dexterity" alt="gym for dexterity icon" width="30"
+                     height="24"/>
+                &nbsp;
+                <span th:text="${character.statistics.get(T(org.thermoweb.rpg.characters.Ability).DEXTERITY)}"/>
+                <br>
+                <br>
+                <img src="/images/brain-intelligence.svg" title="Intelligence" alt="brain for intelligence icon"
+                     width="30" height="24"/>
+                &nbsp;
+                <span th:text="${character.statistics.get(T(org.thermoweb.rpg.characters.Ability).INTELLIGENCE)}"/>
+                <br>
+                <br>
+            </div>
+            <div class="col">
+                <th:block th:each="skill : ${character.skills}">
+                    <img th:src="'/images/skills/' + ${skill.name.toLowerCase()} + '.svg'" th:title="${skill.description}"
+                         title="titre"
+                         alt="skill" width="30" height="24"/>
+                    <span th:text="${skill.shortName}"/>
+                </th:block>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Equipment</h5>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Slot</th>
+                            <th>Name</th>
+                            <th>attrition</th>
+                        </tr>
+                        </thead>
+                        <tr th:each="equipment : ${character.equipment()}">
+                            <td th:text="${equipment.key}">Slot</td>
+                            <td th:text="${equipment.value.name}">Name</td>
+                            <td th:text="${equipment.value.attrition} + ' %'">Attrition</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

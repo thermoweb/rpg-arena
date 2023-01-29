@@ -23,14 +23,18 @@
                 <span th:case="*" class="badge text-bg-primary" th:text="${encounter.status().name()}"></span>
             </th:block>
             <div class="container">
+                <br><br>
+                <div class="row">
+                    <div class="col-sm-6 mb-3 mb-sm-0" th:each="character : ${encounter.characters()}">
+                        <div th:replace="~{fragments/character_card :: character-card}"></div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-10">
                         <p class="card-text">
-                            <br>Opponents : <a th:each="character : ${encounter.characters()}"
-                                               th:href="'/ui/characters/' + ${character.id()}"
-                                               th:text="'[' + ${character.name()} + ']'"></a>
-                            <br>Grid : <span th:text="${encounter.grid().name()}"/>
-                            <br/>Winner : <span th:text="${encounter.combatLog?.winner?.name()}"/>
+                            <br><img src="/images/border.svg" alt="grid icon">&nbsp;<span
+                                th:text="${encounter.grid().name()}"/>
                         </p>
                     </div>
                     <div class="col">
@@ -61,13 +65,18 @@
                     <div class="accordion-body">
                         <th:block th:each="playerLog : ${roundLog.logs().values()}">
                             <table>
-                                <thead>
-                                <th>#</th>
-                                </thead>
                                 <tr th:each="log : ${playerLog}">
                                     <td th:text="${log.toString()}"></td>
                                 </tr>
                             </table>
+                        </th:block>
+                        <br><br>
+                        <th:block th:each="character : ${roundLog.characters()}">
+                            <span th:text="${character.name()}"/>
+                            &nbsp;
+                            <span th:text="${character.hitPoints()}"/>
+                            <img src="/images/heart-pulse.svg" alt="heart pulse icon">
+                            <br>
                         </th:block>
                     </div>
                 </div>

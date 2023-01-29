@@ -13,10 +13,14 @@ import org.thermoweb.rpg.characters.CharacterService;
 import org.thermoweb.rpg.characters.Skills;
 import org.thermoweb.rpg.characters.Statistics;
 import org.thermoweb.rpg.dto.CharacterDto;
+import org.thermoweb.rpg.dto.EncounterDto;
+import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
+import org.thermoweb.rpg.encounter.client.EncounterManagerRestClient;
 import org.thermoweb.rpg.equipment.Equipment;
 import org.thermoweb.rpg.rest.client.CharacterCreationRequest;
 import org.thermoweb.rpg.rest.mapper.CharacterMapper;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +33,7 @@ import java.util.stream.Collectors;
 public class CharactersController {
 
     private final CharacterService characterService;
+    private final EncounterManagerClient encounterClient = new EncounterManagerRestClient("http","localhost","8082");
 
     public CharactersController(CharacterService characterService) {
         this.characterService = characterService;
@@ -41,7 +46,14 @@ public class CharactersController {
 
     @GetMapping("{id}")
     public CharacterDto findById(@PathVariable String id) {
-        return characterService.getById(id).map(CharacterMapper::map).orElseThrow();
+        CharacterDto characterDto = characterService.getById(id).map(CharacterMapper::map).orElseThrow();
+        try {
+            List<EncounterDto> encounters = encounterClient.findAllByCharacterId(characterDto.id());
+            characterDto = characterDto.toBuilder().encounters(encounters).build();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return characterDto;
     }
 
     @PostMapping

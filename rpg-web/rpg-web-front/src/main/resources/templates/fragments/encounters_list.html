@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table th:fragment="encounters-list" class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Status</th>
+    <th scope="col">Characters</th>
+    <th scope="col">Grid</th>
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tr th:each="encounter : ${encounters}">
+    <td>
+      <a th:href="'/ui/encounters/' + ${encounter.id()}" th:text="${encounter.id()}"/>
+    </td>
+    <td>
+      <th:block th:switch="${encounter.status().name()}">
+        <span th:case="FINISHED" class="badge text-bg-success">FINISHED</span>
+        <span th:case="FAILED" class="badge text-bg-danger">FAILED</span>
+        <span th:case="*" class="badge text-bg-primary" th:text="${encounter.status().name()}"></span>
+      </th:block>
+    </td>
+    <td>
+      <th:block th:each="character : ${encounter.characters()}">
+        <a class="btn btn-outline-secondary"
+           th:href="'/ui/characters/' + ${character.id()}">
+          <img src="/images/trophy.svg"
+               th:if="${encounter.combatLog?.winner?.id() == character.id()}" alt="trophy">
+          <span th:text="${character.name()}" />
+          &nbsp;
+        </a>
+      </th:block>
+
+    </td>
+    <td th:text="${encounter.grid()}"></td>
+    <td>
+      <a th:if="${encounter.status().name() == 'CREATED'}"
+         th:href="'/ui/encounters/' + ${encounter.id()} + ':launch'" class="btn btn-danger "
+         role="button"
+         aria-disabled="true">Launch</a>
+      <a th:if="${encounter.status().name() == 'FAILED'}"
+         th:href="'/ui/encounters/' + ${encounter.id()} + ':launch'" class="btn btn-danger "
+         role="button"
+         aria-disabled="true">Retry</a>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
