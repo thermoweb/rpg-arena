@@ -23,11 +23,11 @@ public record CharacterDto(String id,
                            Map<Ability, Integer> statistics,
                            Set<Skills> skills,
                            List<Spells> spellbook,
+                           List<EncounterDto> encounters,
                            int hitPoints,
                            int maxHitPoints) {
 
     @Builder
     public record Equipment(String name, int attrition) {
-
     }
 }

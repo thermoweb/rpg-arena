@@ -57,7 +57,7 @@ public class Damages {
 
     @Override
     public String toString() {
-        return String.format("%dd%d%+d", number, dice.getFaces(), bonus);
+        return String.format("%dd%d%+d", number, dice.getFaces(), bonus).replace("+0", "");
     }
 
     @Builder

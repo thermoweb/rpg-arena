@@ -66,6 +66,16 @@ public class EncounterManagerRestClient implements EncounterManagerClient {
     public List<EncounterDto> getAll() throws IOException, InterruptedException {
         final String uri = prefixUri + ENCOUNTERS_ENDPOINT;
 
+        return getEncounterList(uri);
+    }
+    @Override
+    public List<EncounterDto> findAllByCharacterId(String id) throws IOException, InterruptedException {
+        final String uri = prefixUri + ENCOUNTERS_ENDPOINT + "/search?characterId=" + id;
+
+        return getEncounterList(uri);
+    }
+
+    private List<EncounterDto> getEncounterList(String uri) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .GET()

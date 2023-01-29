@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.thermoweb.rpg.dto.EncounterDto;
 import org.thermoweb.rpg.encounter.client.EncounterManagerCreationRequest;
@@ -27,6 +28,12 @@ public class EncounterController {
     @GetMapping
     public List<EncounterDto> getAll() {
         return encounterService.findAll().stream().map(EncounterDtoMapper::map).collect(Collectors.toList());
+    }
+
+    @GetMapping("/search")
+    public List<EncounterDto> findAll(@RequestParam String characterId) {
+
+        return encounterService.findAllByCharacterId(characterId).stream().map(EncounterDtoMapper::map).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")

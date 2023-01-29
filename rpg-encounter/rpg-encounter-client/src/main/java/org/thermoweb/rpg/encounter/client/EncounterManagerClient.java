@@ -12,6 +12,8 @@ public interface EncounterManagerClient {
 
     List<EncounterDto> getAll() throws IOException, InterruptedException;
 
+    List<EncounterDto> findAllByCharacterId(String id) throws IOException, InterruptedException;
+
     EncounterDto getById(String id) throws IOException, InterruptedException;
 
     EncounterDto launch(String id) throws IOException, InterruptedException;
