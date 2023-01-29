@@ -19,7 +19,7 @@
         <module>rpg-brain-demo</module>
         <module>rpg-web</module>
         <module>rpg-common</module>
-        <module>rpg-web</module>
+        <module>rpg-web-front</module>
     </modules>
 
     <properties>

@@ -12,6 +12,7 @@ import org.thermoweb.rpg.dto.EncounterDto;
 import org.thermoweb.rpg.dto.brain.BrainDto;
 import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
 import org.thermoweb.rpg.encounter.client.EncounterManagerRestClient;
+import org.thermoweb.rpg.front.conf.RpgArenaFrontProperties;
 import org.thermoweb.rpg.rest.client.EncounterCreationRequest;
 import org.thermoweb.rpg.rest.client.RpgArenaClient;
 import org.thermoweb.rpg.rest.client.RpgArenaRestClient;
@@ -24,9 +25,13 @@ import java.util.List;
 @Slf4j
 public class EncountersView {
 
-    private final EncounterManagerClient encounterManagerRestClient = new EncounterManagerRestClient("http", "localhost", "8082");
-    private final RpgArenaClient rpgArenaClient = new RpgArenaRestClient("http", "localhost", "8080");
-    ;
+    private final EncounterManagerClient encounterManagerRestClient;
+    private final RpgArenaClient rpgArenaClient;
+
+    public EncountersView (RpgArenaFrontProperties rpgArenaFrontProperties) {
+        rpgArenaClient = new RpgArenaRestClient(rpgArenaFrontProperties.getWebServer());
+        encounterManagerRestClient = new EncounterManagerRestClient(rpgArenaFrontProperties.getEncounterManager());
+    }
 
     @GetMapping
     public String getEncounters(Model model) {

@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public interface RpgArenaClient {
 
+    String CHARACTERS_ENDPOINT = "/characters";
+    String ENCOUNTERS_ENDPOINT = "/encounters";
+
     CharacterDto createCharacter(CharacterCreationRequest request) throws IOException, URISyntaxException, InterruptedException;
 
     EncounterDto createRandomEncounter(EncounterCreationRequest request) throws IOException, InterruptedException;
