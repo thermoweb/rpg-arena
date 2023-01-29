@@ -38,7 +38,7 @@ public class DumbBrain implements Brain {
         return actions;
     }
 
-    private static Action getRandomAttack(DefaultCharacter defaultCharacter, DefaultCharacter target) {
+    public static Action getRandomAttack(DefaultCharacter defaultCharacter, DefaultCharacter target) {
         List<Action> possibleActions = new ArrayList<>();
         possibleActions.add(Attack.builder()
                 .weapon(defaultCharacter.getEquipmentSlots().getWeapon())
