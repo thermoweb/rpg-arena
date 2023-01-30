@@ -1,18 +1,16 @@
 package org.thermoweb.rpg.actions;
 
-import org.thermoweb.rpg.logs.ActionLog;
-import org.thermoweb.rpg.logs.MoveLog;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.core.data.Pair;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.environment.Arena;
+import org.thermoweb.rpg.logs.ActionLog;
+import org.thermoweb.rpg.logs.MoveLog;
 import org.thermoweb.rpg.utils.GridUtils;
 
 @Builder
 @Getter
-@Slf4j
 public final class Move implements Action {
 
     private final Direction direction;
@@ -32,7 +30,6 @@ public final class Move implements Action {
         try {
             Pair<Integer, Integer> newPosition = new Pair<>(y, x);
             String actionLog = String.format("%s moving %s from %s to %s", owner.getName(), direction, coords, newPosition);
-            log.info(actionLog);
             arena.move(owner, newPosition);
             GridUtils.consolePrint(arena);
             return new MoveLog(actionLog, coords, newPosition);

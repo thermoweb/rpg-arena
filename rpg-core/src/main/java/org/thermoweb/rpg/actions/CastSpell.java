@@ -2,7 +2,6 @@ package org.thermoweb.rpg.actions;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.rpg.characters.Ability;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.characters.Skills;
@@ -17,7 +16,6 @@ import java.util.Objects;
 
 @Builder
 @Getter
-@Slf4j
 public final class CastSpell implements TargetableAction {
 
     private final Spells spell;
@@ -36,8 +34,6 @@ public final class CastSpell implements TargetableAction {
                 .from(from.getLog())
                 .target(target.getLog())
                 .spell(spell);
-
-        log.info("{} casts {} (cost {} hp)", from.getName(), spell.name(), spell.getHpCost());
 
         int roll = Dice.D100.roll();
         int abilityThreshold = from.getStatistics().getAbility(Ability.INTELLIGENCE);
