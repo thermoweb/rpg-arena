@@ -16,7 +16,7 @@
             <span th:text="${character.name()}"></span>
             <th:block th:if="${encounter != null}">
                 <a th:href="'/ui/characters/' + ${character.id()}">
-                    <img src="/images/go-to.svg" width="30" height="24">
+                    <img src="/images/go-to.svg" width="30" height="24" alt="go to icon">
                 </a>
             </th:block>
 
@@ -53,6 +53,12 @@
                          title="titre"
                          alt="skill" width="30" height="24"/>
                     <span th:text="${skill.shortName}"/>
+                    <br>
+                </th:block>
+                <th:block th:if="${character.brain != null}">
+                    <img src="/images/brain.svg" th:title="brain" alt="brain" width="30" height="24" />
+                    <span th:text="${character.brain?.type}" />
+                    <br>
                 </th:block>
             </div>
         </div>

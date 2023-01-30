@@ -48,7 +48,7 @@ public class EncounterService {
         try {
             encounter.prepare();
             return EncounterEntityMapper.map(encounterRepository.save(EncounterEntityMapper.map(encounter)));
-        } catch (EncounterStateException e) {
+        } catch (Exception e) {
             handleFailedEncounter("Launch failed", e, encounter);
         }
         return encounter;
@@ -60,12 +60,12 @@ public class EncounterService {
             encounterRepository.save(EncounterEntityMapper.map(encounter));
             encounter.run();
             encounterRepository.save(EncounterEntityMapper.map(encounter));
-        } catch (EncounterStateException e) {
+        } catch (Exception e) {
             handleFailedEncounter("Run failed", e, encounter);
         }
     }
 
-    private void handleFailedEncounter(String message, EncounterStateException e, Encounter encounter) {
+    private void handleFailedEncounter(String message, Exception e, Encounter encounter) {
         log.error(message + " : {}", e.getMessage());
         encounter.setState(new FailedState());
         encounterRepository.save(EncounterEntityMapper.map(encounter));

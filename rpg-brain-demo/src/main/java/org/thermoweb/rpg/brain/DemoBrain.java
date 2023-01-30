@@ -66,7 +66,8 @@ public class DemoBrain implements Brain {
         }
 
         if (verticalDistance != maxRange) {
-            IntStream.range(0, Math.abs(verticalDistance) - maxRange + 1)
+            int distanceToMove = (int) Math.round(currentDistance - maxRange);
+            IntStream.range(0, Math.abs(verticalDistance) - distanceToMove + 1)
                     .forEach(n -> moves.add(Move.builder()
                             .direction(verticalDistance > 0 ? Direction.UP : Direction.DOWN)
                             .build()));

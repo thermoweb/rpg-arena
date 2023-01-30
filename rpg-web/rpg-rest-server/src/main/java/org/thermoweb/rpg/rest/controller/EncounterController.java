@@ -34,7 +34,11 @@ public class EncounterController {
 
     @PostMapping
     public EncounterDto createEncounter(@RequestBody EncounterCreationRequest encounterCreationRequest) {
-        CharacterEntity player = characterService.getById(encounterCreationRequest.characterId()).orElseThrow();
+        CharacterEntity player = Optional.ofNullable(encounterCreationRequest.characterId())
+                .filter(s -> !s.isEmpty())
+                .map(characterService::getById)
+                .orElseGet(() -> characterService.getRandom().stream().findFirst())
+                .orElseThrow();
         CharacterEntity bbeg = Optional.ofNullable(encounterCreationRequest.opponentId())
                 .map(characterService::getById)
                 .flatMap(Function.identity())
@@ -46,7 +50,10 @@ public class EncounterController {
                                         .toBuilder()
                                         .brain(encounterCreationRequest.brain())
                                         .build(),
-                                CharacterMapper.map(bbeg)))
+                                CharacterMapper.map(bbeg)
+                                        .toBuilder()
+                                        .brain(encounterCreationRequest.opponentBrain())
+                                        .build()))
                 .grid(encounterCreationRequest.grid())
                 .build();
         try {
