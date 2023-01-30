@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thermoweb.rpg.arena.Grid;
+import org.thermoweb.rpg.characters.BrainType;
+import org.thermoweb.rpg.dto.CharacterDto;
 import org.thermoweb.rpg.dto.EncounterDto;
 import org.thermoweb.rpg.dto.brain.BrainDto;
 import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
@@ -28,7 +31,7 @@ public class EncountersView {
     private final EncounterManagerClient encounterManagerRestClient;
     private final RpgArenaClient rpgArenaClient;
 
-    public EncountersView (RpgArenaFrontProperties rpgArenaFrontProperties) {
+    public EncountersView(RpgArenaFrontProperties rpgArenaFrontProperties) {
         rpgArenaClient = new RpgArenaRestClient(rpgArenaFrontProperties.getWebServer());
         encounterManagerRestClient = new EncounterManagerRestClient(rpgArenaFrontProperties.getEncounterManager());
     }
@@ -41,7 +44,26 @@ public class EncountersView {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return "encounters_list";
+        return "encounters/list";
+    }
+
+    @GetMapping("create")
+    public String createEncounter(Model model) {
+        model.addAttribute("createEncounterRequest", CreateEncounterForm.builder()
+                .brainUri("http://localhost:8083/brain")
+                .brainType(BrainType.REMOTE)
+                .opponentBrainUri("http://localhost:8083/brain")
+                .opponentBrainType(BrainType.REMOTE)
+                .build());
+        try {
+            model.addAttribute("challengers", rpgArenaClient.getAll());
+            model.addAttribute("brainTypes", BrainType.values());
+            model.addAttribute("grids", Grid.values());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return "encounters/create";
     }
 
     @PostMapping("create")
@@ -51,6 +73,7 @@ public class EncountersView {
                     .characterId(request.characterId())
                     .opponentId(request.opponentId())
                     .brain(new BrainDto(request.brainType(), request.brainUri()))
+                    .opponentBrain(new BrainDto(request.opponentBrainType(), request.opponentBrainUri()))
                     .grid(request.grid())
                     .build());
 
@@ -69,7 +92,7 @@ public class EncountersView {
             throw new RuntimeException(e);
         }
 
-        return "encounters_view";
+        return "encounters/view";
     }
 
     @GetMapping("{id}:launch")
@@ -88,6 +111,6 @@ public class EncountersView {
             throw new RuntimeException(e);
         }
 
-        return "encounters_view";
+        return "encounters/view";
     }
 }

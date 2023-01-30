@@ -22,10 +22,14 @@ public class CharacterService {
     }
 
     public CharacterEntity getRandomExcept(CharacterEntity character) {
-        return characterRepository.random().getMappedResults().stream()
+        return getRandom().stream()
                 .filter(c -> !Objects.equals(c.getId(), character.getId()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<CharacterEntity> getRandom() {
+        return characterRepository.random().getMappedResults();
     }
 
     public CharacterEntity create(CharacterEntity character) {
