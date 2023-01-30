@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Encounters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+<div th:replace="~{/fragments/navbar :: navbar}">should not appear</div>
+<br><br>
+<div class="container">
+    <form action="#" th:action="@{/ui/encounters/create}" th:object="${createEncounterRequest}" method="post">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">Brain URI</span>
+                                    <input type="text" class="form-control" placeholder="http://host:port/brain"
+                                           aria-label="brainUri"
+                                           aria-describedby="basic-addon1" th:field="*{brainUri}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="Character">Character</label>
+                                    <select class="form-select" id="Character" th:field="*{characterId}">
+                                        <option value="">RANDOM</option>
+                                        <option th:each="challenger : ${challengers}" th:value="${challenger.id()}"
+                                                th:text="${challenger.name()}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="Profile">Brain</label>
+                                    <select class="form-select" id="Profile" th:field="*{brainType}">
+                                        <option th:each="typeBrain : ${brainTypes}" th:value="${typeBrain.name()}"
+                                                th:text="${typeBrain.name()}"/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="opponentBrainUri">Brain URI</span>
+                                    <input type="text" class="form-control" placeholder="http://host:port/brain"
+                                           aria-label="brainUri"
+                                           aria-describedby="opponentBrainUri" th:field="*{opponentBrainUri}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="Opponent">Opponent</label>
+                                    <select class="form-select" id="Opponent" th:field="*{opponentId}">
+                                        <option value="">RANDOM</option>
+                                        <option th:each="challenger : ${challengers}" th:value="${challenger.id()}"
+                                                th:text="${challenger.name()}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="OpponentBrainType">Brain</label>
+                                    <select class="form-select" id="OpponentBrainType" th:field="*{opponentBrainType}">
+                                        <option th:each="brainType : ${brainTypes}" th:value="${brainType.name()}"
+                                                th:text="${brainType.name()}"/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="Grid">Grid</label>
+                    <select class="form-select" id="Grid" th:field="*{grid}">
+                        <option th:each="grid : ${grids}" th:value="${grid.name()}"
+                                th:text="${grid.name()}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-danger">Create Encounter</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

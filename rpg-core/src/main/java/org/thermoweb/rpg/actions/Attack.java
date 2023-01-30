@@ -2,7 +2,6 @@ package org.thermoweb.rpg.actions;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.thermoweb.core.utils.RandomUtils;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.environment.Arena;
@@ -21,7 +20,6 @@ import static java.lang.Math.max;
 
 @Builder
 @Getter
-@Slf4j
 public final class Attack implements TargetableAction {
 
     private final Weapon weapon;
@@ -89,5 +87,10 @@ public final class Attack implements TargetableAction {
     @Override
     public void setTarget(DefaultCharacter character) {
         this.target = character;
+    }
+
+    @Override
+    public Damages getDamages() {
+        return weapon.getDamages();
     }
 }

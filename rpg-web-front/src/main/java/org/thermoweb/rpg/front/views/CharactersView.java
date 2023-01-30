@@ -42,7 +42,7 @@ public class CharactersView {
             throw new RuntimeException(e);
         }
 
-        return "characters_list";
+        return "characters/list";
     }
 
     @GetMapping("create")
@@ -52,7 +52,7 @@ public class CharactersView {
         model.addAttribute("abilities", Ability.values());
         model.addAttribute("createRequest", CreateCharacterForm.builder().build());
 
-        return "characters_create";
+        return "characters/create";
     }
 
     @PostMapping("create")
@@ -78,7 +78,9 @@ public class CharactersView {
     public String getEncounter(@PathVariable String id, Model model) {
         try {
             CharacterDto character = rpgArenaClient.getById(id).orElseThrow();
-            List<CharacterDto> challengers = rpgArenaClient.getAll().stream().filter(c -> !c.id().equals(id)).toList();
+            List<CharacterDto> challengers = rpgArenaClient.getAll().stream()
+                    .filter(c -> !c.id().equals(id))
+                    .toList();
             model.addAttribute("character", character);
             model.addAttribute("createEncounterRequest", CreateEncounterForm.builder()
                     .characterId(id)
@@ -88,7 +90,7 @@ public class CharactersView {
             model.addAttribute("grids", Grid.values());
             model.addAttribute("challengers", challengers);
 
-            return "characters_view";
+            return "characters/view";
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

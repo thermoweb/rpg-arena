@@ -22,8 +22,8 @@ public enum Weapon implements Equipment<Hands> {
         this.ability = ability;
     }
 
-    public int getDamages() {
-        return damages.get();
+    public Damages getDamages() {
+        return damages;
     }
 
     public Damages.DamagesLog getLoggedDamages() {

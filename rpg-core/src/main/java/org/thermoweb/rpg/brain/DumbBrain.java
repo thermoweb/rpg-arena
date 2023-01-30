@@ -6,6 +6,7 @@ import org.thermoweb.rpg.actions.Attack;
 import org.thermoweb.rpg.actions.CastSpell;
 import org.thermoweb.rpg.actions.Direction;
 import org.thermoweb.rpg.actions.Move;
+import org.thermoweb.rpg.actions.TargetableAction;
 import org.thermoweb.rpg.characters.DefaultCharacter;
 import org.thermoweb.rpg.characters.Skills;
 import org.thermoweb.rpg.environment.Arena;
@@ -39,7 +40,12 @@ public class DumbBrain implements Brain {
     }
 
     public static Action getRandomAttack(DefaultCharacter defaultCharacter, DefaultCharacter target) {
-        List<Action> possibleActions = new ArrayList<>();
+        List<TargetableAction> possibleActions = getPossibleActions(defaultCharacter, target);
+        return RandomUtils.getRandomItem(possibleActions);
+    }
+
+    public static List<TargetableAction> getPossibleActions(DefaultCharacter defaultCharacter, DefaultCharacter target) {
+        List<TargetableAction> possibleActions = new ArrayList<>();
         possibleActions.add(Attack.builder()
                 .weapon(defaultCharacter.getEquipmentSlots().getWeapon())
                 .target(target).build());
@@ -57,6 +63,6 @@ public class DumbBrain implements Brain {
                     .spell(RandomUtils.getRandomItem(defaultCharacter.getSpellbook()))
                     .build());
         }
-        return RandomUtils.getRandomItem(possibleActions);
+        return possibleActions;
     }
 }
