@@ -14,8 +14,16 @@
     <a th:href="'/ui/encounters/create'" class="btn btn-danger " role="button" aria-disabled="true">
         Create Encounter</a>
     <br>
-    <table class="table" th:replace="~{/fragments/encounters_list :: encounters-list}">
-    </table>
+    <div th:with="encounters=${encountersPage.getContent()}">
+        <table class="table" th:replace="~{/fragments/encounters_list :: encounters-list}"></table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <th:block th:each="i: ${#numbers.sequence(1, encountersPage.totalPages)}">
+                <li class="page-item"><a class="page-link" th:href="'/ui/encounters?page=' + ${i}" th:text="${i}">1</a></li>
+            </th:block>
+        </ul>
+    </nav>
 </div>
 
 </body>

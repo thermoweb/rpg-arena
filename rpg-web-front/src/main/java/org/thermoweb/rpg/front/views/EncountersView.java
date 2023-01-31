@@ -1,6 +1,7 @@
 package org.thermoweb.rpg.front.views;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.thermoweb.rpg.arena.Grid;
 import org.thermoweb.rpg.characters.BrainType;
-import org.thermoweb.rpg.dto.CharacterDto;
 import org.thermoweb.rpg.dto.EncounterDto;
 import org.thermoweb.rpg.dto.brain.BrainDto;
 import org.thermoweb.rpg.encounter.client.EncounterManagerClient;
@@ -21,7 +22,6 @@ import org.thermoweb.rpg.rest.client.RpgArenaClient;
 import org.thermoweb.rpg.rest.client.RpgArenaRestClient;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/ui/encounters")
@@ -37,10 +37,12 @@ public class EncountersView {
     }
 
     @GetMapping
-    public String getEncounters(Model model) {
+    public String getEncounters(Model model,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int size) {
         try {
-            List<EncounterDto> encounters = encounterManagerRestClient.getAll();
-            model.addAttribute("encounters", encounters);
+            Page<EncounterDto> encountersPage = encounterManagerRestClient.getAll(Math.max(0, page - 1), size);
+            model.addAttribute("encountersPage", encountersPage);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
