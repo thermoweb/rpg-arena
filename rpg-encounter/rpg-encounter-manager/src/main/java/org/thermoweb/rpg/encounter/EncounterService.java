@@ -68,6 +68,7 @@ public class EncounterService {
     private void handleFailedEncounter(String message, Exception e, Encounter encounter) {
         log.error(message + " : {}", e.getMessage());
         encounter.setState(new FailedState());
+        encounter.getCharacters().forEach(character -> character.setHitPoints(character.getMaxHitPoints()));
         encounterRepository.save(EncounterEntityMapper.map(encounter));
     }
 }

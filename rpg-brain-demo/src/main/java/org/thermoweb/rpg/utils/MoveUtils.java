@@ -21,14 +21,14 @@ public class MoveUtils {
         int verticalDistance = me.position().getLeft() - target.position().getLeft();
         int horizontalDistance = me.position().getRight() - target.position().getRight();
         if (verticalDistance != 0) {
-            IntStream.range(0, verticalDistance)
+            IntStream.range(0, Math.abs(verticalDistance))
                     .forEach(n -> moves.add(Move.builder()
                             .direction(verticalDistance > 0 ? Direction.UP : Direction.DOWN)
                             .build()));
         }
 
         if (horizontalDistance != 0) {
-            IntStream.range(0, horizontalDistance)
+            IntStream.range(0, Math.abs(horizontalDistance))
                     .forEach(n -> moves.add(Move.builder()
                             .direction(horizontalDistance > 0 ? Direction.LEFT : Direction.RIGHT)
                             .build()));
