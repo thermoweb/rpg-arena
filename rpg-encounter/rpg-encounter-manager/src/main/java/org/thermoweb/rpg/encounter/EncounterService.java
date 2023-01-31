@@ -1,10 +1,12 @@
 package org.thermoweb.rpg.encounter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.thermoweb.rpg.data.encounters.EncounterEntity;
 import org.thermoweb.rpg.data.encounters.EncounterRepository;
 import org.thermoweb.rpg.encounter.states.CreatedState;
-import org.thermoweb.rpg.encounter.states.EncounterStateException;
 import org.thermoweb.rpg.encounter.states.FailedState;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 
@@ -25,6 +27,10 @@ public class EncounterService {
 
     public List<Encounter> findAll() {
         return encounterRepository.findAll().stream().map(EncounterEntityMapper::map).collect(Collectors.toList());
+    }
+
+    public Page<Encounter> findAll(Pageable pageable) {
+        return encounterRepository.findAll(pageable).map(EncounterEntityMapper::map);
     }
 
     public List<Encounter> findAllByCharacterId(String id) {
@@ -68,6 +74,7 @@ public class EncounterService {
     private void handleFailedEncounter(String message, Exception e, Encounter encounter) {
         log.error(message + " : {}", e.getMessage());
         encounter.setState(new FailedState());
+        encounter.getCharacters().forEach(character -> character.setHitPoints(character.getMaxHitPoints()));
         encounterRepository.save(EncounterEntityMapper.map(encounter));
     }
 }
