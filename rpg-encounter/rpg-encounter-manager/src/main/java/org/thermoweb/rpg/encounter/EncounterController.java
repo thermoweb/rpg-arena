@@ -1,5 +1,7 @@
 package org.thermoweb.rpg.encounter;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +13,6 @@ import org.thermoweb.rpg.dto.EncounterDto;
 import org.thermoweb.rpg.encounter.client.EncounterManagerCreationRequest;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,9 @@ public class EncounterController {
     }
 
     @GetMapping
-    public List<EncounterDto> getAll() {
-        return encounterService.findAll().stream().map(EncounterDtoMapper::map).collect(Collectors.toList());
+    public Page<EncounterDto> getAll(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "10") int size) {
+        return encounterService.findAll(PageRequest.of(page, size)).map(EncounterDtoMapper::map);
     }
 
     @GetMapping("/search")
