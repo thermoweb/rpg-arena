@@ -11,6 +11,6 @@ public interface EncounterRepository extends MongoRepository<EncounterEntity, St
 
     Optional<EncounterEntity> findFirstByStatus(EncounterStatus status);
 
-    @Query("{ 'characters._id' : ?0 }")
+    @Query(value = "{ 'characters._id' : ?0 }", sort = "{'lastModified' :  -1 }")
     List<EncounterEntity> findAllByCharacterId(String id);
 }

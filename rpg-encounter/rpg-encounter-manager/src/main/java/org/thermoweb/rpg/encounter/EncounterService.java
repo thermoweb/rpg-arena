@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.thermoweb.rpg.data.encounters.EncounterEntity;
 import org.thermoweb.rpg.data.encounters.EncounterRepository;
 import org.thermoweb.rpg.encounter.states.CreatedState;
 import org.thermoweb.rpg.encounter.states.FailedState;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 
+import java.time.InstantSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +39,7 @@ public class EncounterService {
 
     public Encounter create(Encounter encounter) {
         encounter.setState(new CreatedState());
+        encounter.setLastModified(InstantSource.system().instant());
         return EncounterEntityMapper.map(encounterRepository.save(EncounterEntityMapper.map(encounter)));
     }
 
@@ -63,18 +64,23 @@ public class EncounterService {
     public void run(Encounter encounter) {
         try {
             encounter.run();
-            encounterRepository.save(EncounterEntityMapper.map(encounter));
+            save(encounter);
             encounter.run();
-            encounterRepository.save(EncounterEntityMapper.map(encounter));
+            save(encounter);
         } catch (Exception e) {
             handleFailedEncounter("Run failed", e, encounter);
         }
+    }
+
+    public void save(Encounter encounter) {
+        encounter.setLastModified(InstantSource.system().instant());
+        encounterRepository.save(EncounterEntityMapper.map(encounter));
     }
 
     private void handleFailedEncounter(String message, Exception e, Encounter encounter) {
         log.error(message + " : {}", e.getMessage());
         encounter.setState(new FailedState());
         encounter.getCharacters().forEach(character -> character.setHitPoints(character.getMaxHitPoints()));
-        encounterRepository.save(EncounterEntityMapper.map(encounter));
+        save(encounter);
     }
 }

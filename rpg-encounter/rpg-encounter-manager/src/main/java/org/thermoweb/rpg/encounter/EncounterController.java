@@ -2,6 +2,9 @@ package org.thermoweb.rpg.encounter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,9 +30,8 @@ public class EncounterController {
     }
 
     @GetMapping
-    public Page<EncounterDto> getAll(@RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "10") int size) {
-        return encounterService.findAll(PageRequest.of(page, size)).map(EncounterDtoMapper::map);
+    public Page<EncounterDto> getAll(@PageableDefault(sort = "lastModified", direction = Sort.Direction.DESC) Pageable pageable) {
+        return encounterService.findAll(pageable).map(EncounterDtoMapper::map);
     }
 
     @GetMapping("/search")

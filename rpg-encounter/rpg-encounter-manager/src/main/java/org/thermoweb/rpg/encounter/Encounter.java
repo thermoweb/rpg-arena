@@ -9,6 +9,7 @@ import org.thermoweb.rpg.encounter.states.EncounterStateException;
 import org.thermoweb.rpg.environment.Arena;
 import org.thermoweb.rpg.logs.CombatLog;
 
+import java.time.Instant;
 import java.util.List;
 
 @Builder
@@ -19,6 +20,7 @@ public class Encounter {
     private final String id;
     private final List<DefaultCharacter> characters;
     private final Arena arena;
+    private Instant lastModified;
     private CombatLog combatLog;
     private EncounterState state;
 

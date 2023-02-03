@@ -20,6 +20,7 @@ public class EncounterEntityMapper {
         List<DefaultCharacter> characters = encounter.getCharacters().stream().map(CharacterEntityMapper::map).toList();
         return Encounter.builder()
                 .id(encounter.getId())
+                .lastModified(encounter.getLastModified())
                 .arena(Arena.builder().characters(characters).gridPattern(encounter.getGrid()).build())
                 .state(map(encounter.getStatus()))
                 .characters(characters)
@@ -30,6 +31,7 @@ public class EncounterEntityMapper {
     public static EncounterEntity map(Encounter encounter) {
         return EncounterEntity.builder()
                 .id(encounter.getId())
+                .lastModified(encounter.getLastModified())
                 .status(encounter.getState().getStatus())
                 .grid(encounter.getArena().getGridPattern())
                 .combatLog(encounter.getCombatLog())

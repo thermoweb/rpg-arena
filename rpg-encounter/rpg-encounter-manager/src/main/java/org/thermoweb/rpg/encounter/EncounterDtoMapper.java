@@ -13,6 +13,7 @@ public class EncounterDtoMapper {
     public static EncounterDto map(Encounter encounter) {
         return EncounterDto.builder()
                 .id(encounter.getId())
+                .lastModified(encounter.getLastModified())
                 .status(Optional.ofNullable(encounter.getState()).map(EncounterState::getStatus).orElse(null))
                 .characters(encounter.getCharacters().stream().map(CharacterDtoMapper::map).toList())
                 .grid(encounter.getArena().getGridPattern())
@@ -24,6 +25,7 @@ public class EncounterDtoMapper {
         List<DefaultCharacter> characters = encounterDto.characters().stream().map(CharacterDtoMapper::map).toList();
         return Encounter.builder()
                 .id(encounterDto.id())
+                .lastModified(encounterDto.lastModified())
                 .characters(characters)
                 .combatLog(encounterDto.combatLog())
                 .arena(Arena.builder().gridPattern(encounterDto.grid()).characters(characters).build())

@@ -8,8 +8,8 @@ import org.thermoweb.rpg.arena.Grid;
 import org.thermoweb.rpg.data.characters.CharacterEntity;
 import org.thermoweb.rpg.encounters.EncounterStatus;
 import org.thermoweb.rpg.logs.CombatLog;
-import org.thermoweb.rpg.logs.RoundLog;
 
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -20,6 +20,7 @@ public class EncounterEntity {
     @Id
     private String id;
     private EncounterStatus status;
+    private Instant lastModified;
     private Grid grid;
     private List<CharacterEntity> characters;
     private CombatLog combatLog;
