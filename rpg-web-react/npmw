@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Export these paths once so we can check if NVM exists.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+if ! hash nvm 2>/dev/null; then
+  echo 'Warning: NVM is not installed' >&2
+  echo 'Installing NVM...'
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+fi
+
+# Export again in case we had to install. Sometimes NVM doesnt do a good job manually exporting quick enough.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+version=$(grep -Eo '"npmw-node":.*?[^\\]",' package.json | cut -d: -f2- | tr -dc '[.][:alnum:]')
+nvm install ${version}
+nvm use ${version}
+
+
+echo "executing npm $@"
+npm "$@"
+

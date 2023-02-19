@@ -26,12 +26,14 @@
             <th scope="col">Hit Points</th>
         </tr>
         </thead>
-        <tr th:each="character : ${characters}">
-            <td><a th:href="'/ui/characters/' + ${character.id()}" th:text="${character.name()}">name</a></td>
-            <td th:text="${character.profiles()}"/>
-            <td th:text="${character.species()}"/>
-            <td th:text="${character.hitPoints()}"/>
-        </tr>
+        <tbody>
+            <tr th:each="character : ${characters}">
+                <td><a th:href="'/ui/characters/' + ${character.id()}" th:text="${character.name()}">name</a></td>
+                <td th:text="${character.profiles()}"/>
+                <td th:text="${character.species()}"/>
+                <td th:text="${character.hitPoints()}"/>
+            </tr>
+        </tbody>
     </table>
 </div>
 

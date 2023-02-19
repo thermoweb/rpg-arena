@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class SpringBootRestApplication {
+public class RpgWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootRestApplication.class, args);
+        SpringApplication.run(RpgWebApplication.class, args);
     }
 }

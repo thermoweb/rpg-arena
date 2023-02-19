@@ -1,5 +1,6 @@
 package org.thermoweb.rpg.rest.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/characters")
 public class CharactersController {
 
@@ -41,11 +43,13 @@ public class CharactersController {
         this.characterService = characterService;
     }
 
+    @CrossOrigin
     @GetMapping
     public List<CharacterDto> findall() {
         return characterService.getAll().stream().map(CharacterMapper::map).toList();
     }
 
+    @CrossOrigin
     @GetMapping("{id}")
     public CharacterDto findById(@PathVariable String id) {
         CharacterDto characterDto = characterService.getById(id).map(CharacterMapper::map).orElseThrow();
