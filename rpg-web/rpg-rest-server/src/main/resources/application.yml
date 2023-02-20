@@ -7,7 +7,7 @@ spring:
   data:
     mongodb:
       username: rpg-arena
-      password:
+      password: change-me
       host: localhost
       port: 27017
       database: rpg-arena
