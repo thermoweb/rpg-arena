@@ -1,5 +1,11 @@
 package org.thermoweb.rpg.arena;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonKey;
+import lombok.Getter;
+
+@Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Grid {
     SQUARE_8(8, 8),
     SQUARE_16(16, 16),
@@ -13,11 +19,8 @@ public enum Grid {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    @JsonKey
+    public String getName() {
+        return this.name();
     }
 }

@@ -17,7 +17,6 @@ export default function EncountersPage({encounterId}) {
                 );
                 setData(response.data);
                 setError(null);
-                console.log(data);
             } catch (err) {
                 setError(err.message);
                 setData(null);

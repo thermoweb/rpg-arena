@@ -13,6 +13,11 @@ public final class QueuedState implements EncounterState {
     }
 
     @Override
+    public void launch(Encounter encounter) throws EncounterStateException {
+        encounter.setState(new InProgressState());
+    }
+
+    @Override
     public EncounterStatus getStatus() {
         return EncounterStatus.QUEUED;
     }

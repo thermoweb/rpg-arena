@@ -186,7 +186,7 @@ export default class EncounterCreationForm extends React.Component {
                                     <label className="input-group-text" htmlFor="Grid">Grid</label>
                                     <select className="form-select" id="Grid" name="grid"
                                             value={this.state.grid} onChange={this.handleChange}>
-                                        {!this.state.isReferentialLoading && this.state.referential.grid.map((grid) => (
+                                        {!this.state.isReferentialLoading && Object.keys(this.state.referential.grid).map((grid) => (
                                             <option key={grid} value={grid}>{grid}</option>
                                         ))}
                                     </select>

@@ -63,7 +63,7 @@ public class EncounterService {
 
     public void run(Encounter encounter) {
         try {
-            encounter.run();
+            encounter.launch();
             save(encounter);
             encounter.run();
             save(encounter);

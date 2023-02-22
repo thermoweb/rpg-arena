@@ -1,5 +1,5 @@
 import CharacterCard from "./CharacterCard";
-import {renderEncountersActions, renderStatus} from "../common/encounters.js";
+import {renderStatus} from "../common/encounters.js";
 import React from "react";
 import axios from "axios";
 
@@ -8,15 +8,17 @@ export default class EncounterView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {isLoading: true}
+        this.state = {isLoading: true, isReferentialLoading: true}
     }
 
     componentDidMount() {
+        axios.get('http://localhost:8084/referential')
+            .then((response) => {
+                this.setState({referential: response.data, isReferentialLoading: false});
+            });
         if (this.state.encounter?.status === 'FINISHED') {
-            console.log("clear interval")
             clearInterval(this.interval)
         } else {
-            console.log("set interval")
             clearInterval(this.interval);
             this.interval = setInterval(this.getData, 3000);
             this.getData();
@@ -28,11 +30,8 @@ export default class EncounterView extends React.Component {
     }
 
     launchEncounter = () => {
-        console.log("launching encounter");
         axios.post('http://localhost:8082/encounters/' + this.state.encounter.id + ':launch')
             .then((response) => {
-                console.log(response);
-                console.log("set interval");
                 clearInterval(this.interval);
                 this.interval = setInterval(this.getData, 500);
                 this.getData();
@@ -44,11 +43,8 @@ export default class EncounterView extends React.Component {
             `http://localhost:8082/encounters/` + this.props.encounterId
         ).then((response) => {
             this.setState({encounter: response.data, isLoading: false});
-            console.log(this.state.encounter);
 
-            if(this.state.encounter !== undefined && this.state.encounter.status === 'FINISHED') {
-                console.log("remove interval");
-                console.log(this.interval);
+            if (this.state.encounter !== undefined && this.state.encounter.status === 'FINISHED') {
                 clearInterval(this.interval);
             }
         });
@@ -85,8 +81,37 @@ export default class EncounterView extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <br/>
+                        <div className="container">
+                            <br/>
+                            <div className="row">
+                                <div className="col">
+                                    {!this.state.isReferentialLoading &&
+                                        <>
+                                        {this.state.referential.grid[this.state.encounter.grid].x}
+                                        </>}
+                                </div>
+                                <div className="col">
+                                    {this.state.encounter.combatLog?.logs?.map((round, index) => (
+                                        <div key={index}>
+                                            {round.round}
+                                            {round.characters.map((character, index) => (
+                                                <div key={index}>
+                                                    {round.logs[character.id].map((action, index) => (
+                                                        <div key={index}>
+                                                            {action.description} <br/>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>}
+                </div>
+                }
             </>
         )
     };

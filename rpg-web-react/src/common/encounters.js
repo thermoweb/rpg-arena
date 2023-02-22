@@ -1,5 +1,4 @@
 import loading from '../assets/ajax-loader.gif';
-import {Link} from "react-router-dom";
 import axios from "axios";
 
 export const renderStatus = (status) => {
@@ -18,10 +17,8 @@ export const renderStatus = (status) => {
 }
 
 const launchEncounter = (encounterId) => {
-    console.log("launching encounter");
     axios.post('http://localhost:8082/encounters/' + encounterId + ':launch')
         .then((response) => {
-        console.log(response);
     });
 }
 
